@@ -1,0 +1,201 @@
+{
+	"score": 0,
+	"cps": 0,
+	"cpc": 1,
+	"clickCount": 0,
+	"achivements": {
+		"clicker_1": {
+			"name": "clicker beginner",
+			"desc": "click 100 times",
+			"has": false
+		},
+		"clicker_2": {
+			"name": "clicker intermediate",
+			"desc": "click 1,000 times",
+			"has": false
+		},
+		"clicker_3": {
+			"name": "clicker advanced",
+			"desc": "click 50,000 times",
+			"has": false
+		},
+		"clicker_4": {
+			"name": "clicker master",
+			"desc": "click 100,000",
+			"has": false
+		},
+		"upgrade1_0": {
+			"name": "upgrade 1 beginner",
+			"desc": "get upgrade 1 1 time",
+			"has": false
+		},
+		"upgrade1_1": {
+			"name": "upgrade 1 intermediate",
+			"desc": "get upgrade 1 10 times",
+			"has": false
+		},
+		"upgrade1_2": {
+			"name": "upgrade 1 advanced",
+			"desc": "get upgrade 1 50 times",
+			"has": false
+		},
+		"upgrade1_3": {
+			"name": "upgrade 1 master",
+			"desc": "get upgrade 1 100 times",
+			"has": false
+		},
+		"upgrade2_0": {
+			"name": "upgrade 2 beginner",
+			"desc": "get upgrade 2 1 time",
+			"has": false
+		},
+		"upgrade2_1": {
+			"name": "upgrade 2 intermediate",
+			"desc": "get upgrade 2 10 times",
+			"has": false
+		},
+		"upgrade2_2": {
+			"name": "upgrade 2 advanced",
+			"desc": "get upgrade 2 50 times",
+			"has": false
+		},
+		"upgrade2_3": {
+			"name": "upgrade 2 master",
+			"desc": "get upgrade 2 100 times",
+			"has": false
+		},
+		"upgrade3_0": {
+			"name": "upgrade 3 beginner",
+			"desc": "get upgrade 3 1 time",
+			"has": false
+		},
+		"upgrade3_1": {
+			"name": "upgrade 3 intermediate",
+			"desc": "get upgrade 3 10 times",
+			"has": false
+		},
+		"upgrade3_2": {
+			"name": "upgrade 3 advanced",
+			"desc": "get upgrade 3 50 times",
+			"has": false
+		},
+		"upgrade3_3": {
+			"name": "upgrade 3 master",
+			"desc": "get upgrade 3 100 times",
+			"has": false
+		},
+		"upgrade4_0": {
+			"name": "upgrade 4 beginner",
+			"desc": "get upgrade 4 1 time",
+			"has": false
+		},
+		"upgrade4_1": {
+			"name": "upgrade 4 intermediate",
+			"desc": "get upgrade 4 10 times",
+			"has": false
+		},
+		"upgrade4_2": {
+			"name": "upgrade 4 advanced",
+			"desc": "get upgrade 4 50 times",
+			"has": false
+		},
+		"upgrade4_3": {
+			"name": "upgrade 4 master",
+			"desc": "get upgrade 4 100 times",
+			"has": false
+		},
+		"upgrade5_0": {
+			"name": "upgrade 5 beginner",
+			"desc": "get upgrade 5 1 time",
+			"has": false
+		},
+		"upgrade5_1": {
+			"name": "upgrade 5 intermediate",
+			"desc": "get upgrade 5 10 times",
+			"has": false
+		},
+		"upgrade5_2": {
+			"name": "upgrade 5 advanced",
+			"desc": "get upgrade 5 50 times",
+			"has": false
+		},
+		"upgrade5_3": {
+			"name": "upgrade 5 master",
+			"desc": "get upgrade 5 100 times",
+			"has": false
+		},
+		"NeverClick": {
+			"name": "Never Click",
+			"desc": "get upgrade 5 while only clicking 15 times",
+			"has": false
+		}
+	},
+	"upgrades": [
+		{
+			"name": "upgrade 1",
+			"price": 15,
+			"priceBase": 15,
+			"effect": 0.1,
+			"multi": 1,
+			"count": 0
+		},
+		{
+			"name": "upgrade 2",
+			"price": 100,
+			"priceBase": 100,
+			"effect": 1,
+			"multi": 1,
+			"count": 0
+		},
+		{
+			"name": "upgrade 3",
+			"price": 1100,
+			"priceBase": 1100,
+			"effect": 8,
+			"multi": 1,
+			"count": 0
+		},
+		{
+			"name": "upgrade 4",
+			"price": 12000,
+			"priceBase": 12000,
+			"effect": 47,
+			"multi": 1,
+			"count": 0
+		},
+		{
+			"name": "upgrade 5",
+			"price": 130000,
+			"priceBase": 130000,
+			"effect": 260,
+			"multi": 1,
+			"count": 0
+		}
+	],
+	"upgrades special": [
+		{
+			"name": "click x2",
+			"desc": "double your click power",
+			"price": 100,
+			"has": false
+		},
+		{
+			"name": "click x2 2",
+			"desc": "double your click power... again",
+			"price": 500,
+			"has": false
+		},
+		{
+			"name": "upgrade 1 multi",
+			"desc": "Multiplies the CPS of upgrade 1 by 2",
+			"price": 1000,
+			"has": false
+		},
+		{
+			"name": "upgrade 2 multi",
+			"desc": "Multiplies the CPS of upgrade 2 by 2",
+			"price": 5000,
+			"has": false
+		}
+	]
+}

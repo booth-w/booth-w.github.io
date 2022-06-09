@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<title>Skull_is_dull – Wordle</title>
+		<meta name="description" content="skull_is_dull wordle">
+		<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+		<meta name="msapplication-TileColor" content="#2b5797">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link href="style.css" rel="stylesheet">
+		<link href="/style.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script src="script.js" defer></script>
+	</head>
+
+	<body>
+		<div class="header-container">
+			<div class="header">
+				<div class="header">
+					<div class="header-title-container">
+						<div class="header-title" id="headerTitle">Wordle</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="game">
+			<table class="table" id="table">
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+				<tr>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+					<td class='box'></td>
+				</tr>
+			</table>
+			<input class="text-box" id="textBox" autocomplete="off">
+			<table id="answer" style="display: none">
+				<tr>
+					<td class="box"></td>
+					<td class="box"></td>
+					<td class="box"></td>
+					<td class="box"></td>
+					<td class="box"></td>
+				</tr>
+			</table>
+<!-- 			<button onclick="newWord()">New word</button> -->
+			<button onclick="toggleHelp()">Help</button>
+			<div class="letters-container">
+				<div class="letters-row">
+					<div class="letter" id="q">
+						q
+					</div>
+					<div class="letter" id="w">
+						w
+					</div>
+					<div class="letter" id="e">
+						e
+					</div>
+					<div class="letter" id="r">
+						r
+					</div>
+					<div class="letter" id="t">
+						t
+					</div>
+					<div class="letter" id="y">
+						y
+					</div>
+					<div class="letter" id="u">
+						u
+					</div>
+					<div class="letter" id="i">
+						i
+					</div>
+					<div class="letter" id="o">
+						o
+					</div>
+					<div class="letter" id="p">
+						p
+					</div>
+				</div>
+				<div class="letters-row" style="margin-left: .25em">
+					<div class="letter" id="a">
+						a
+					</div>
+					<div class="letter" id="s">
+						s
+					</div>
+					<div class="letter" id="d">
+						d
+					</div>
+					<div class="letter" id="f">
+						f
+					</div>
+					<div class="letter" id="g">
+						g
+					</div>
+					<div class="letter" id="h">
+						h
+					</div>
+					<div class="letter" id="j">
+						j
+					</div>
+					<div class="letter" id="k">
+						k
+					</div>
+					<div class="letter" id="l">
+						l
+					</div>
+				</div>
+				<div class="letters-row" style="margin-left: .75em">
+					<div class="letter" id="z">
+						z
+					</div>
+					<div class="letter" id="x">
+						x
+					</div>
+					<div class="letter" id="c">
+						c
+					</div>
+					<div class="letter" id="v">
+						v
+					</div>
+					<div class="letter" id="b">
+						b
+					</div>
+					<div class="letter" id="n">
+						n
+					</div>
+					<div class="letter" id="m">
+						m
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modal">
+			<div class="modal-content">
+				<h3>How to play:</h3>
+				<p>Input any five letter word. If the letter is green, it is the correct letter and is the correct spot. If the letter is orange, the letter is in the word, just in the wrong spot.</p>
+				<p>Your goal is to guess the hidden word.</p>
+				<p>You get six guesses</p>
+			</div>
+		</div>
+	</body>
+</html>

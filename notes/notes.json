@@ -1,0 +1,138 @@
+{
+	"School": {
+		"CS": {
+			"1.3.2": {
+				"Indexing": {
+					"Advantages": [
+						
+					],
+					"Disadvantages": [
+						
+					]
+				},
+				"Normalisation": {
+					"": "Removes Duplication"
+				}
+			},
+			"1.3.3": {
+				"TCP/IP": {
+					"Application layer": [
+						"Breaks data into segmants"
+					],
+					"Transportation layer": [
+						
+					],
+					"Internet layer": [
+						"Prepares packets for the internet",
+						"Source and destination IP addresses are added"
+					],
+					"Link layer": [
+						"Transports packets across links"
+					],
+					"": "Goes back once got to the end"
+				}
+			}
+		},
+		"Digital Media": {
+			"Unit 1": {
+				"LO1": {
+					"Conglomerate": [
+						"A company that owns numerous companies involved in mass media enterprises"
+					],
+					"Cross-media ownership": [
+						"A company that distributes accross multiple mediums"
+					],
+					"Synergy": [
+						"When two or more companies work together to make more progress than the sum of if they all worked seperatly"
+					],
+					"Video on demand": [
+						"Videos get shown when requested instead of programmed"
+					],
+					"Horizontal intergration ": [
+						"Business operating at the same level of the value chain in the same industry"
+					]
+				},
+				"LO2": {
+					"Above-the-line advertising": [
+						"Large group of people"
+					],
+					"Below-the-line advertising": [
+						"Small group of targeted people"
+					]
+				},
+				"LO3": {
+					"Diagetic audio": [
+						"Can be heared by charectars"
+					],
+					"Non-diagetic audio": [
+						"Can't be heared by charectars"
+					],
+					"Genre": [
+						"A style or category of art, music, or literature"
+						]
+				},
+				"LO4": {
+					"Niche audience": [
+						"Small but dedicated audience"
+					],
+					"Mainstream audience": [
+						"Most audience"
+					],
+					"BARB": [
+						"Broadcasters' Audience Research Board"
+					],
+					"RAJAR": [
+						"Radio Joint Audience Research"
+					],
+					"Research methods": {
+						"Primary": [
+							"Done by yourself",
+							"Survay",
+							"Interview",
+							"Focus groups"
+						],
+						"Secondary": [
+							"Done by others"
+						]
+					},
+					"NRS grades": [
+						"A: Upper middle class",
+						"B: Middle middle class",
+						"C1: Lower middle class",
+						"C2: Skilled working class",
+						"D: Working class",
+						"E: Non-working class"
+					]
+				},
+				"LO5": {
+					
+				},
+				"LO6": {
+					"Regulatory bodies": {
+						"BBFC": {
+							"": "British Board of Film Classification",
+							" ": "13 Reasons why had a scene of suiside that Netflix removed for the UK release",
+							"What it does": [
+								"Sets film age rating"
+							]
+						},
+						"PEGI": {
+							"":	"Pan European Game Information",
+							"Does": [
+								"Sets game age rating"
+							]
+						},
+						"ASA": {
+							"": "Advertising Standards Authority",
+							"Does": [
+								"Regulates adverts",
+								"Makes sure it is sutible for all audiences",
+								"Makes sure it causes no harm"
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

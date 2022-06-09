@@ -1,0 +1,31 @@
+.signin {
+	display: inline;
+}
+
+.body {
+	margin: 1em;
+	display: none;
+}
+
+.text-box {
+	background-color: var(--bg-med);
+	color: whitesmoke;
+}
+
+.login-button {
+	background-color: var(--bg-med);
+	border-color: var(--bg-low);
+	width: 180px;
+	padding: 30px;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+	font-size: 2em;
+	color: var(--text);
+	cursor: pointer;
+}
+
+.graph-container {
+	height: 500px;
+}

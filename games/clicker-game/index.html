@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Skull_is_dull – Clicker Game</title>
+		<meta name="description" content="skull_is_dull clicker game">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="msapplication-TileColor" content="#2b5797">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link href="style.css" rel="stylesheet">
+		<link href="/style.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js" defer></script>	
+		<script src="game.js" defer></script>
+	</head>
+
+	<body>
+		<div class="header-container">
+			<div class="header">
+				<div class="header">
+					<div class="header-title-container">
+						<div class="header-title">Clicker Game</div>
+					</div>
+				</div>
+				<div class="header">
+					<button class="header-button" onclick="save.save()">Save</button>
+					<button class="header-button" onclick="save.load()">Load</button>
+					<button class="header-button" onclick="save.reset()" style="color: red">Reset</button>
+				</div>
+			</div>
+		</div>
+		<div class="game">
+			<div>
+				<div class="click">
+					<p class="cps">CPS: <span id="cps"></span></p>
+					<p class="score" id="score"></p>
+					<button class="button-main" onclick="game.click()">Click</button>
+				</div>
+				<div class="achivements-container">
+					<button class="achivements material-icons-outlined" id="clicker_1"></button>
+					<p class="hover-info">
+						Name: <span id="clicker_1 name"></span><br>
+						Description: <span id="clicker_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="clicker_2"></button>
+					<p class="hover-info">
+						Name: <span id="clicker_2 name"></span><br>
+						Description: <span id="clicker_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="clicker_3"></button>
+					<p class="hover-info">
+						Name: <span id="clicker_3 name"></span><br>
+						Description: <span id="clicker_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="clicker_4"></button>
+					<p class="hover-info">
+						Name: <span id="clicker_4 name"></span><br>
+						Description: <span id="clicker_4 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade1_0"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade1_0 name"></span><br>
+						Description: <span id="upgrade1_0 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade1_1"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade1_1 name"></span><br>
+						Description: <span id="upgrade1_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade1_2"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade1_2 name"></span><br>
+						Description: <span id="upgrade1_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade1_3"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade1_3 name"></span><br>
+						Description: <span id="upgrade1_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade2_0"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade2_0 name"></span><br>
+						Description: <span id="upgrade2_0 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade2_1"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade2_1 name"></span><br>
+						Description: <span id="upgrade2_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade2_2"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade2_2 name"></span><br>
+						Description: <span id="upgrade2_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade2_3"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade2_3 name"></span><br>
+						Description: <span id="upgrade2_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade3_0"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade3_0 name"></span><br>
+						Description: <span id="upgrade3_0 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade3_1"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade3_1 name"></span><br>
+						Description: <span id="upgrade3_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade3_2"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade3_2 name"></span><br>
+						Description: <span id="upgrade3_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade3_3"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade3_3 name"></span><br>
+						Description: <span id="upgrade3_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade4_0"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade4_0 name"></span><br>
+						Description: <span id="upgrade4_0 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade4_1"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade4_1 name"></span><br>
+						Description: <span id="upgrade4_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade4_2"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade4_2 name"></span><br>
+						Description: <span id="upgrade4_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade4_3"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade4_3 name"></span><br>
+						Description: <span id="upgrade4_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade5_0"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade5_0 name"></span><br>
+						Description: <span id="upgrade5_0 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade5_1"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade5_1 name"></span><br>
+						Description: <span id="upgrade5_1 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade5_2"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade5_2 name"></span><br>
+						Description: <span id="upgrade5_2 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgrade5_3"></button>
+					<p class="hover-info">
+						Name: <span id="upgrade5_3 name"></span><br>
+						Description: <span id="upgrade5_3 desc"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="NeverClick"></button>
+					<p class="hover-info">
+						Name: <span id="NeverClick name"></span><br>
+						Description: <span id="NeverClick desc"></span>
+					</p>
+				</div>
+				<div class="achivements-container">
+					<button class="achivements material-icons-outlined" id="upgradeS0" onclick="game.upgradeSBuy(0)"></button>
+					<p class="hover-info">
+						Name: <span id="upgradeS0 name"></span><br>
+						Description: <span id="upgradeS0 desc"></span><br>
+						Price: <span id="upgradeS0 price"></span><br>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgradeS1" onclick="game.upgradeSBuy(1)"></button>
+					<p class="hover-info">
+						Name: <span id="upgradeS1 name"></span><br>
+						Description: <span id="upgradeS1 desc"></span><br>
+						Price: <span id="upgradeS1 price"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgradeS2" onclick="game.upgradeSBuy(2)"></button>
+					<p class="hover-info">
+						Name: <span id="upgradeS2 name"></span><br>
+						Description: <span id="upgradeS2 desc"></span><br>
+						Price: <span id="upgradeS2 price"></span>
+					</p>
+					<button class="achivements material-icons-outlined" id="upgradeS3" onclick="game.upgradeSBuy(3)"></button>
+					<p class="hover-info">
+						Name: <span id="upgradeS3 name"></span><br>
+						Description: <span id="upgradeS3 desc"></span><br>
+						Price: <span id="upgradeS3 price"></span>
+					</p>
+				</div>
+			</div>
+			<div class="upgrades-menu">
+				<button class="upgrade-button" onclick="game.upgradeBuy(0)">
+					<div class="upgrade-info">
+						<p id="upgradeName0"></p>
+						<p>Price: <span id="upgradePrice0"></span></p>
+						<p>CPS: <span id="upgradeEffect0"></span></p>
+					</div>
+					<p class="upgrade-count" id="upgradeCount0"></p>
+				</button>
+				<button class="upgrade-button" onclick="game.upgradeBuy(1)">
+					<div class="upgrade-info">
+						<p id="upgradeName1"></p>
+						<p>Price: <span id="upgradePrice1"></span></p>
+						<p>CPS: <span id="upgradeEffect1"></span></p>
+					</div>
+					<p class="upgrade-count" id="upgradeCount1"></p>
+				</button>
+				<button class="upgrade-button" onclick="game.upgradeBuy(2)">
+					<div class="upgrade-info">
+						<p id="upgradeName2"></p>
+						<p>Price: <span id="upgradePrice2"></span></p>
+						<p>CPS: <span id="upgradeEffect2"></span></p>
+					</div>
+					<p class="upgrade-count" id="upgradeCount2"></p>
+				</button>
+				<button class="upgrade-button" onclick="game.upgradeBuy(3)">
+					<div class="upgrade-info">
+						<p id="upgradeName3"></p>
+						<p>Price: <span id="upgradePrice3"></span></p>
+						<p>CPS: <span id="upgradeEffect3"></span></p>
+					</div>
+					<p class="upgrade-count" id="upgradeCount3"></p>
+				</button>
+				<button class="upgrade-button" onclick="game.upgradeBuy(4)">
+					<div class="upgrade-info">
+						<p id="upgradeName4"></p>
+						<p>Price: <span id="upgradePrice4"></span></p>
+						<p>CPS: <span id="upgradeEffect4"></span></p>
+					</div>
+					<p class="upgrade-count" id="upgradeCount4"></p>
+				</button>
+			</div>
+		</div>
+		<script>
+			let achivementsTooltips = document.querySelectorAll(".hover-info");
+			window.onmousemove = function (a) {
+				let x = a.clientX + "px";
+				let y = a.clientY + "px";
+				for (let a = 0; a < achivementsTooltips.length; a++) {
+					achivementsTooltips[a].style.top = y;
+					achivementsTooltips[a].style.left = x;
+				}
+			}
+		</script>
+	</body>
+</html>

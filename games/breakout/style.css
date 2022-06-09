@@ -1,0 +1,9 @@
+.game {
+	margin: 20px;
+}
+
+canvas {
+	background-color: var(--bg-med);
+	width: 100%;
+	height: 100%;
+}
