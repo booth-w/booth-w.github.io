@@ -122,3 +122,4 @@ document.addEventListener("keydown", (e) => {
 
 // TODO
 // Fix re-doing an undone cross turns to mark
+// Fix jank when undoing already re-done
