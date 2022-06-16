@@ -28,7 +28,7 @@ async function getLikedSongs(token) {
 			"Authorization": `Bearer ${token}`
 		}
 	}).catch(() => {
-		alert("Token has expired.")
+		alert("Token has expired.");
 	});
 
 	let total = (await result.json())["total"];
@@ -55,10 +55,8 @@ async function getLikedSongs(token) {
 	let data = [];
 	
 	for (let a = minYear; a < maxYear+1; a++) {
-		// data.push([a, years[a]]);
-		data.push({x: a, value: years[a], songs: yearsSongs[a]})
+		data.push({x: a, value: years[a], songs: yearsSongs[a]});
 	}
-	// data = data.mapAs({songs: yearsSongs[id]});
 	
 	let chart = anychart.column();
 	chart.title("Song release years");
@@ -72,13 +70,11 @@ async function getLikedSongs(token) {
 }
 
 let scopes = [
-	"ugc-image-upload",
-	"playlist-modify-public",
 	"user-library-read"
-]
+];
 
 $("#loginButton").click(() => {
-	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`
+	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
 	window.open(redirectURL, "");
 });
 
@@ -96,35 +92,7 @@ window.addEventListener("message", (e) => {
 			});
 		})().then((responce) => {
 			$(".body").show();
+			getLikedSongs(token);
 		});
 	}
 }, false);
-
-$("#textBox").keypress((e) => {
-	if (e.which == 13) {
-		songs = [];
-		for (a of $("#textBox").val().split(" ")) {
-			(async () => {
-				let song = await getSong(token, a)
-				songs.push(song.name);
-			})();
-		}
-		console.log(songs);
-		$("#textBox").val("");
-	}
-});
-
-function selectChange() {
-	$(".body-content").children().hide();
-	let target;
-	switch ($("#options").val()) {
-		case "createPlaylist": target = "#playlist"; break;
-		case "likedSongsYears": target = "#songYears"; if (!hasLoadedChart) getLikedSongs(token); break;
-	}
-	$(target).show();
-}
-
-// $(".login-button").hide();
-// $(".body").show();
-
-$(".body-content").children().hide();
