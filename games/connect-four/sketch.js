@@ -67,6 +67,7 @@ class Player {
 				board.boardTemp[5 - y][x] = this.number;
 			} catch (TypeError) { }
 		}
+		this.checkWinner();
 	}
 
 	checkWinner() {
@@ -104,13 +105,15 @@ class Player {
 class Bot extends Player {
 	makeMove() {
 		this.randomMove();
+		// this.lowestPos();
+
+		this.checkWinner();
 	}
 	
 	randomMove() {
 		let x;
 		while (1) {
 			x = Math.floor(Math.random() * board.cols);
-			// x = 1;
 			if (!board.board[0][x]) break;
 		}
 		let y = 0;
@@ -124,31 +127,42 @@ class Bot extends Player {
 			} catch (TypeError) { }
 		}
 		turn++;
-		this.checkWinner();
+	}
+
+	lowestPos() {
+		let x = 0;
+		let y = 0;
+		let canMove = [];
+		let reversed = JSON.parse(JSON.stringify(board.board)).reverse()
+		for (let a in reversed) {
+			y = 5-a;
+			for (let b in reversed[a]) {
+				if (!reversed[a][b]) canMove.push(b);
+			}
+			if (canMove.some(e => e)) break;
+		}
+		x = canMove[Math.floor(Math.random() * canMove.length)];
+		board.board[y][x] = this.number;
+		// turn++;
 	}
 }
-
 
 let board = new Board(7, 6);
 let player0 = new Player("Player 1", 1);
 // let player1 = new Player("Player 2", 2);
 let player1 = new Bot("Bot", 2);
-let turn = 0
+let turn = 0;
 
 board.create();
 
 function mouseMoved() {
-	eval(`player${turn % 2}.makeMove()`)
+	eval(`player${turn % 2}.makeMove()`);
 }
 
-function move(player) {
-	board.board = JSON.parse(JSON.stringify(board.boardTemp));
-	eval(`player${(turn+1) % 2}.makeMove()`);
-	eval(`player${player}.checkWinner()`);
-};
-
 function mousePressed() {
-	move(turn % 2);
+	board.board = JSON.parse(JSON.stringify(board.boardTemp));
 	turn++;
-	eval(`player${turn % 2}.makeMove()`)
+	eval(`player${turn % 2}.makeMove()`);
+	eval(`player${turn % 2}.makeMove()`);
+	console.log(turn);
 }
