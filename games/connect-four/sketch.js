@@ -51,7 +51,6 @@ class Player {
 	constructor(name, number) {
 		this.name = name;
 		this.number = number;
-		this.isBot = false;
 	}
 
 	makeMove() {
@@ -103,11 +102,6 @@ class Player {
 }
 
 class Bot extends Player {
-	constructor(name, number) {
-		super(name, number);
-		this.isBot = false;
-	}
-
 	makeMove() {
 		this.randomMove();
 	}
@@ -144,9 +138,7 @@ let turn = 0
 board.create();
 
 function mouseMoved() {
-	if (!eval(`player${turn % 2}.isBot`)) {
-		eval(`player${turn % 2}.makeMove()`)
-	}
+	eval(`player${turn % 2}.makeMove()`)
 }
 
 function move(player) {
@@ -156,12 +148,7 @@ function move(player) {
 };
 
 function mousePressed() {
-	if (eval(`player${turn % 2}.isBot`)) {
-		move(turn % 2);
-		turn++;
-	} else {
-		move(turn % 2);
-		turn++;
-		eval(`player${turn % 2}.makeMove()`)
-	}
+	move(turn % 2);
+	turn++;
+	eval(`player${turn % 2}.makeMove()`)
 }
