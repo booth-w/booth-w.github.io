@@ -32,6 +32,7 @@ async function getLikedSongs(token) {
 	});
 
 	let total = (await result.json())["total"];
+	let persentage = 0;
 	
 	for (let a = 0; a < total/50; a++) {
 		let result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=50&offset=${a*50}`, {
@@ -41,13 +42,17 @@ async function getLikedSongs(token) {
 			}
 		});
 		
-		for (let song of (await result.json())["items"]) {
+		for (let [i, song] of (await result.json())["items"].entries()) {
 			let year = song["track"]["album"]["release_date"].slice(0, 4);
 			if (yearsSongs[year]) yearsSongs[year] += `\n${song["track"]["name"]}`;
 			else yearsSongs[year] = song["track"]["name"];
 			if (years[year]) years[year]++;
 			else years[year] = 1;
+			persentage = Math.round(((a*50)+i)/total*100);
+			// console.log(persentage);
+			$("#loadingPersentage").text(persentage);
 		}
+
 	}
 	
 	let maxYear = Math.max(...Object.keys(years));
@@ -63,7 +68,8 @@ async function getLikedSongs(token) {
 	chart.container("graphContainer");
 	chart.column(data);
 	chart.tooltip(true);
-  chart.tooltip().format("Number of Songs: {%value}\n\nSongs: {%songs}");
+  // chart.tooltip().format("Number of Songs: {%value}\n\nSongs: {%songs}");
+  chart.tooltip().format("Number of Songs: {%value}");
 	chart.draw();
 	hasLoadedChart = true;
 	$("#loading").hide();
