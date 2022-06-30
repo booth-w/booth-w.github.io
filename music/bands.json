@@ -1112,6 +1112,25 @@
 		  "Bert Smaak"
 		]
 	},
+	"Foreigner": {
+		"Discography": {
+			"Albums": {
+			
+			}
+		},
+		"Members": [
+			"Thom Gimbel",
+			"Lou Gramm",
+			"Al Greenwood",
+			"Ian McDonald",
+			"Dennis Elliott",
+			"Ed Gagliardi",
+			"Rick Wills",
+			"Johnny Edwards",
+			"Bruce Turgon",
+			"Jason Bonham"
+		]
+	},
 	"Free": {
 		"Discography": {
 			"Albums": {
@@ -1171,6 +1190,20 @@
 			"Martin Smith",
 			"Malcolm Mortimore",
 			"John Weathers"
+		]
+	},
+	"Giles, Giles and Fripp": {
+		"Discography": {
+			"Albums": {
+			
+			}
+		},
+		"Members": [
+			"Michael Giles",
+			"Peter Giles",
+			"Robert Fripp",
+			"Judy Dyble",
+			"Ian McDonald"
 		]
 	},
 	"GTR": {
