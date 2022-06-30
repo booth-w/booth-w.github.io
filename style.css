@@ -48,6 +48,7 @@ body::-webkit-scrollbar-thumb {
 	border-color: var(--bg-high);
 	border-radius: .5rem;
 	padding: .25rem;
+	margin: .25rem;
 }
 .header-title {
 	font-size: 20px;

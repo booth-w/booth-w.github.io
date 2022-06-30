@@ -1,6 +1,7 @@
 let CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
 let token;
-let yearsSongs;
+let songYears;
+let bandCount;
 
 // https://stackoverflow.com/questions/29400426/where-do-i-persist-the-spotify-access-token
 
@@ -19,7 +20,8 @@ async function getSong(token, song) {
 let hasLoadedChart = false;
 async function getLikedSongs(token) {
 	years = [];
-	yearsSongs = [];
+	songYears = [];
+	bandCount = {};
 
 	let result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=1`, {
 		method: 'GET',
@@ -43,12 +45,16 @@ async function getLikedSongs(token) {
 		
 		for (let [i, song] of (await result.json())["items"].entries()) {
 			let year = song["track"]["album"]["release_date"].slice(0, 4);
-			if (yearsSongs[year]) yearsSongs[year] += `\n${song["track"]["name"]}`;
-			else yearsSongs[year] = song["track"]["name"];
+			if (songYears[year]) songYears[year] += `\n${song["track"]["name"]}`;
+			else songYears[year] = song["track"]["name"];
 			if (years[year]) years[year]++;
 			else years[year] = 1;
+			
+			let artist = song["track"]["artists"][0]["name"];
+			if (bandCount[artist]) bandCount[artist]++;
+			else bandCount[artist] = 1;
+
 			persentage = Math.round(((a*50)+i)/total*100);
-			// console.log(persentage);
 			$("#loadingPersentage").text(persentage);
 		}
 
@@ -59,7 +65,7 @@ async function getLikedSongs(token) {
 	let data = [];
 	
 	for (let a = minYear; a < maxYear+1; a++) {
-		data.push({x: a, value: years[a], songs: yearsSongs[a]});
+		data.push({x: a, value: years[a], songs: songYears[a]});
 	}
 	
 	let chart = anychart.column();
