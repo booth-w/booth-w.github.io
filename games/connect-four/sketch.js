@@ -91,6 +91,7 @@ class Player {
 						} catch { isSame = false; }
 						if (isSame) {
 							document.getElementById("winner").innerHTML = `${this.name} is the winner`;
+							clearTimeout();
 							// If another player wins before the three seconds are up, the timer is not reset;
 							setTimeout(() => {document.getElementById("winner").innerHTML = "";}, 3000);
 							board.create();
@@ -104,19 +105,22 @@ class Player {
 
 class Bot extends Player {
 	makeMove() {
-		this.randomMove();
+		// this.randomMove();
 		// this.lowestPos();
+		this.highestPos();
 
 		this.checkWinner();
+		turn++;
 	}
 	
 	randomMove() {
 		let x;
+		let y = 0;
+
 		while (1) {
 			x = Math.floor(Math.random() * board.cols);
 			if (!board.board[0][x]) break;
 		}
-		let y = 0;
 
 		if (x >= 0 && x <= 6) {
 			try {
@@ -126,7 +130,6 @@ class Bot extends Player {
 				board.board[5 - y][x] = this.number;
 			} catch (TypeError) { }
 		}
-		turn++;
 	}
 
 	lowestPos() {
@@ -134,6 +137,7 @@ class Bot extends Player {
 		let y = 0;
 		let canMove = [];
 		let reversed = JSON.parse(JSON.stringify(board.board)).reverse()
+
 		for (let a in reversed) {
 			y = 5-a;
 			for (let b in reversed[a]) {
@@ -143,7 +147,25 @@ class Bot extends Player {
 		}
 		x = canMove[Math.floor(Math.random() * canMove.length)];
 		board.board[y][x] = this.number;
-		// turn++;
+	}
+
+	highestPos() {
+		let x = 0;
+		let y = 0;
+		let canMove = [];
+
+		for (let a in board.board) {
+			if (!board.board[a].some(e => e) || a == 0) continue;
+			y = a-1;
+			for (let b in board.board[a]) {
+				if (board.board[a][b] && !board.board[a-1][b]) canMove.push(b);
+			}
+			if (!canMove.length) continue;
+			console.log(a, canMove);
+			break;
+		}
+		x = canMove[Math.floor(Math.random() * canMove.length)];
+		board.board[y][x] = this.number;
 	}
 }
 
@@ -164,5 +186,4 @@ function mousePressed() {
 	turn++;
 	eval(`player${turn % 2}.makeMove()`);
 	eval(`player${turn % 2}.makeMove()`);
-	console.log(turn);
 }
