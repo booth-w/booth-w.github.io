@@ -1,7 +1,6 @@
 let CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
 let token;
 let yearsSongs;
-let yaers;
 
 // https://stackoverflow.com/questions/29400426/where-do-i-persist-the-spotify-access-token
 
@@ -79,8 +78,13 @@ let scopes = [
 	"user-library-read"
 ];
 
-$("#loginButton").click(() => {
+$(".login-button").click(() => {
 	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
+	window.open(redirectURL, "");
+});
+
+$(".logout-button").click(() => {
+	let redirectURL = "https://accounts.spotify.com/logout";
 	window.open(redirectURL, "");
 });
 
