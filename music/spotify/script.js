@@ -17,9 +17,8 @@ async function getSong(token, song) {
 	return data.tracks.items[0];
 }
 
-let hasLoadedChart = false;
-async function getLikedSongs(token) {
-	years = [];
+async function getData(token) {
+	$("#graphContainer").html("");
 	songYears = [];
 	bandCount = {};
 
@@ -29,7 +28,7 @@ async function getLikedSongs(token) {
 			"Authorization": `Bearer ${token}`
 		}
 	}).catch(() => {
-		alert("Token has expired.");
+		alert("Token has expired");
 	});
 
 	let total = (await result.json())["total"];
@@ -47,8 +46,6 @@ async function getLikedSongs(token) {
 			let year = song["track"]["album"]["release_date"].slice(0, 4);
 			if (songYears[year]) songYears[year] += `\n${song["track"]["name"]}`;
 			else songYears[year] = song["track"]["name"];
-			if (years[year]) years[year]++;
-			else years[year] = 1;
 			
 			let artist = song["track"]["artists"][0]["name"];
 			if (bandCount[artist]) bandCount[artist]++;
@@ -57,45 +54,59 @@ async function getLikedSongs(token) {
 			persentage = Math.round(((a*50)+i)/total*100);
 			$("#loadingPersentage").text(persentage);
 		}
+	}
+	drawChart("year");
+	$("#loading").hide();
+	$("#graphDataType").show();
+	$("#graphContainer").show();
+}
 
-	}
-	
-	let maxYear = Math.max(...Object.keys(years));
-	let minYear = Math.min(...Object.keys(years));
+function drawChart(type) {
+	$("#graphContainer").html("");
 	let data = [];
-	
-	for (let a = minYear; a < maxYear+1; a++) {
-		data.push({x: a, value: years[a], songs: songYears[a]});
-	}
-	
 	let chart = anychart.column();
-	chart.title("Song release years");
+
+	if (type == "year") {
+		years = songYears.map(e => e.split("\n").length);
+		maxYear = Math.max(...Object.keys(years));
+		minYear = Math.min(...Object.keys(years));
+		
+		for (let a = minYear; a < maxYear+1; a++) {
+			data.push({x: a, value: years[a], songs: songYears[a]});
+		}
+
+		chart.title("Song release years");
+	} else {
+		data = Object.entries(bandCount).sort((a, b) => {
+			return b[1] - a[1];
+		});
+
+		chart.title("Band song count");
+	}
+
 	chart.container("graphContainer");
 	chart.column(data);
 	chart.tooltip(true);
-  // chart.tooltip().format("Number of Songs: {%value}\n\nSongs: {%songs}");
-  chart.tooltip().format("Number of Songs: {%value}");
+	// chart.tooltip().format("Number of Songs: {%value}\n\nSongs: {%songs}");
+	chart.tooltip().format("Number of Songs: {%value}");
 	chart.draw();
-	hasLoadedChart = true;
-	$("#loading").hide();
+	hasLoadedData = true;
 }
 
 let scopes = [
 	"user-library-read"
 ];
 
-$(".login-button").click(() => {
-	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
+$("#loginButton").click(() => {
+	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&show_dialog=true&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
 	window.open(redirectURL, "");
 });
 
-$(".logout-button").click(() => {
-	let redirectURL = "https://accounts.spotify.com/logout";
-	window.open(redirectURL, "");
+$("#graphDataType").on("change", () => {
+  drawChart($("#graphDataType").val());
 });
 
 window.addEventListener("message", (e) => {
-	$(".login-button").hide();
 	let hash = JSON.parse(e.data);
 	if (hash.type == "access_token") {
 		((token_ = hash.access_token) => {
@@ -107,8 +118,9 @@ window.addEventListener("message", (e) => {
 				}
 			});
 		})().then((responce) => {
+			$("#accountButton").text("Logout");
 			$(".body").show();
-			getLikedSongs(token);
+			getData(token);
 		});
 	}
 }, false);

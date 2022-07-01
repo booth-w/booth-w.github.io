@@ -16,8 +16,8 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 		<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-core.min.js"></script>
 		<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-cartesian.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.js" defer></script>
 		<script src="script.js" defer></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 
   <body>
@@ -26,20 +26,21 @@
 				<div class="header-title-container">
 					<div class="header-title" id="headerTitle">Spotify</div>
 				</div>
+				<div class="header-button-container">
+					<button class="header-button" id="loginButton">Login</button>
+				</div>
 			</div>
 		</div>
-		<button class="login-button">Login</button>
 		<div class="body">
 			<div class="body-content">
 				<div id="graph">
 					<p id="loading">Loading...<br><span id="loadingPersentage"></span>%</p>
-					<select id="">
-						<option value="songs">Liked Song Years</option>
+					<select id="graphDataType" style="display: none;">
+						<option value="year">Liked Song Years</option>
 						<option value="bands">Most Liked Bands</option>
 					</select>
 					<div class="graph-container" id="graphContainer"></div>
 				</div>
-				<button class="logout-button">Logout</button>
 			</div>
 		</div>
 	</body>
