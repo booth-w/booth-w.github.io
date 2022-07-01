@@ -30,21 +30,6 @@ p {
 	font-size: 20px;
 }
 
-.header-button {
-	background-color: var(--bg-high);
-	border-color: var(--bg-high);
-	border-radius: 8px;
-	cursor: pointer;
-	font-size: 11px;
-	color: var(--text);
-}
-.header-button:hover {
-	transform: translateY(2px)
-}
-.header-button:active {
-  transform: translateY(4px);
-}
-
 .game {
 	display: flex;
 	justify-content: space-between; 

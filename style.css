@@ -42,14 +42,13 @@ a {
 .header {
 	background-color: var(--bg-low);
 	display: flex;
+	justify-content: space-between; 
 	padding: .25rem;
 }
 .header-container {
 	background-color: var(--bg-low);
-	display: flex;
 	position: -webkit-sticky;
 	position: sticky;
-	justify-content: space-between; 
 	top: 0px;
 	z-index: 1;
 	padding: .25rem;
@@ -62,6 +61,24 @@ a {
 }
 .header-title {
 	font-size: 20px;
+}
+.header-button-container {
+	display: flex;
+	padding: .1rem;
+}
+.header-button {
+	background-color: var(--bg-high);
+	border-color: var(--bg-high);
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 11px;
+	color: var(--text);
+}
+.header-button:hover {
+	transform: translateY(1px)
+}
+.header-button:active {
+  transform: translateY(2px);
 }
 
 .buttons-container {
