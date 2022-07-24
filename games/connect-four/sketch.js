@@ -105,9 +105,9 @@ class Player {
 
 class Bot extends Player {
 	makeMove() {
-		// this.randomMove();
+		this.randomMove();
 		// this.lowestPos();
-		this.highestPos();
+		// this.highestPos();
 
 		this.checkWinner();
 		turn++;
@@ -171,8 +171,9 @@ class Bot extends Player {
 
 let board = new Board(7, 6);
 let player0 = new Player("Player 1", 1);
-// let player1 = new Player("Player 2", 2);
-let player1 = new Bot("Bot", 2);
+let player1 = new Player("Player 2", 2);
+// let player1 = new Bot("Bot", 2);
+// Set player 1 back to human before commiting a change
 let turn = 0;
 
 board.create();
@@ -182,8 +183,10 @@ function mouseMoved() {
 }
 
 function mousePressed() {
-	board.board = JSON.parse(JSON.stringify(board.boardTemp));
-	turn++;
-	eval(`player${turn % 2}.makeMove()`);
-	eval(`player${turn % 2}.makeMove()`);
+	if (mouseX >= 0 && mouseX <= width) {
+		board.board = JSON.parse(JSON.stringify(board.boardTemp));
+		eval(`player${turn % 2}.makeMove()`);
+		turn++;
+		eval(`player${turn % 2}.makeMove()`);
+	}
 }
