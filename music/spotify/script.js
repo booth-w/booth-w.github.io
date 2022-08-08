@@ -3,8 +3,6 @@ let token;
 let songYears;
 let bandCount;
 
-// https://stackoverflow.com/questions/29400426/where-do-i-persist-the-spotify-access-token
-
 async function getSong(token, song) {
 	let result = await fetch(`https://api.spotify.com/v1/search?q=${song}&type=track&limit=1`, {
 		method: 'GET',
@@ -27,9 +25,9 @@ async function getData(token) {
 		headers: {
 			"Authorization": `Bearer ${token}`
 		}
-	}).catch(() => {
-		alert("Token has expired");
 	});
+
+	// console.log(await result.json());
 
 	let total = (await result.json())["total"];
 	let persentage = 0;
@@ -44,12 +42,12 @@ async function getData(token) {
 		
 		for (let [i, song] of (await result.json())["items"].entries()) {
 			let year = song["track"]["album"]["release_date"].slice(0, 4);
-			if (songYears[year]) songYears[year] += `\n${song["track"]["name"]}`;
-			else songYears[year] = song["track"]["name"];
+			if (songYears[year]) songYears[year] += `\n${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
+			else songYears[year] = `${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
 			
 			let artist = song["track"]["artists"][0]["name"];
-			if (bandCount[artist]) bandCount[artist]++;
-			else bandCount[artist] = 1;
+			if (bandCount[artist]) bandCount[artist] += `\n${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
+			else bandCount[artist] = `${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 
 			persentage = Math.round(((a*50)+i)/total*100);
 			$("#loadingPersentage").text(persentage);
@@ -77,7 +75,9 @@ function drawChart(type) {
 
 		chart.title("Song release years");
 	} else {
-		data = Object.entries(bandCount).sort((a, b) => {
+		data = Object.entries(bandCount).map((e) => {
+			return [e[0], e[1].split("\n").length];
+		}).sort((a, b) => {
 			return b[1] - a[1];
 		});
 
@@ -87,10 +87,23 @@ function drawChart(type) {
 	chart.container("graphContainer");
 	chart.column(data);
 	chart.tooltip(true);
-	// chart.tooltip().format("Number of Songs: {%value}\n\nSongs: {%songs}");
 	chart.tooltip().format("Number of Songs: {%value}");
 	chart.draw();
 	hasLoadedData = true;
+
+	chart.listen("pointsSelect", (e) => {
+		let songs;
+		if (type == "year") {
+			songs = e.point.getStat("songs").split("\n").sort();
+		} else {
+			songs = bandCount[e.point.getStat("x")].split("\n").sort();
+		}
+
+		$("#songsList").html("");
+		for (let a of songs) {
+			$("#songsList").append(a, "<br>");
+		}
+	});
 }
 
 let scopes = [
@@ -103,7 +116,8 @@ $("#loginButton").click(() => {
 });
 
 $("#graphDataType").on("change", () => {
-  drawChart($("#graphDataType").val());
+		$("#songsList").html("");
+		drawChart($("#graphDataType").val());
 });
 
 window.addEventListener("message", (e) => {
