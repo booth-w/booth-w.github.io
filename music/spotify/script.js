@@ -111,7 +111,7 @@ let scopes = [
 ];
 
 $("#loginButton").click(() => {
-	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&show_dialog=true&redirect_uri=${encodeURIComponent("http://127.0.0.1:5500/music/spotify/callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
+  let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&show_dialog=true&redirect_uri=${encodeURIComponent(location.href+"callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
 	window.open(redirectURL, "");
 });
 
