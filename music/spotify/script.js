@@ -1,27 +1,14 @@
-let CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
-let token;
+const CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
 let songYears;
 let bandCount;
-
-async function getSong(token, song) {
-	let result = await fetch(`https://api.spotify.com/v1/search?q=${song}&type=track&limit=1`, {
-		method: 'GET',
-		headers: {
-			"Authorization": `Bearer ${token}`
-		}
-	});
-	
-	let data = await result.json();
-	return data.tracks.items[0];
-}
 
 async function getData(token) {
 	$("#graphContainer").html("");
 	songYears = [];
 	bandCount = {};
 
-	let result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=1`, {
-		method: 'GET',
+	let result = await fetch("https://api.spotify.com/v1/me/tracks?limit=1", {
+		method: "GET",
 		headers: {
 			"Authorization": `Bearer ${token}`
 		}
@@ -34,7 +21,7 @@ async function getData(token) {
 	
 	for (let a = 0; a < total/50; a++) {
 		let result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=50&offset=${a*50}`, {
-			method: 'GET',
+			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${token}`
 			}
@@ -106,23 +93,22 @@ function drawChart(type) {
 	});
 }
 
-let scopes = [
-	"user-library-read"
-];
-
 $("#loginButton").click(() => {
-  let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&show_dialog=true&redirect_uri=${encodeURIComponent(location.href+"callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
+	let scopes = ["user-library-read"];
+	let redirectURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&show_dialog=true&redirect_uri=${encodeURIComponent(location.href+"callback.html")}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token`;
 	window.open(redirectURL, "");
+	$("#loginButton").hide();
 });
 
 $("#graphDataType").on("change", () => {
-		$("#songsList").html("");
-		drawChart($("#graphDataType").val());
+	$("#songsList").html("");
+	drawChart($("#graphDataType").val());
 });
 
 window.addEventListener("message", (e) => {
 	let hash = JSON.parse(e.data);
 	if (hash.type == "access_token") {
+		let token;
 		((token_ = hash.access_token) => {
 			token = token_;
 			return $.ajax({
@@ -131,8 +117,7 @@ window.addEventListener("message", (e) => {
 					"Authorization": `Bearer ${token}`
 				}
 			});
-		})().then((responce) => {
-			$("#accountButton").text("Logout");
+		})().then(() => {
 			$(".body").show();
 			getData(token);
 		});
