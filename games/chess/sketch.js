@@ -168,6 +168,7 @@ class Pawn extends Piece {
 	getMoves() {
 		console.log(this.piece);
 		let canMove = []
+
 		// Attack
 		try {
 			if (board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]-1].colour != this.colour) {
@@ -179,9 +180,10 @@ class Pawn extends Piece {
 				canMove.push([selected[0]-((this.colour == "White")*2-1), selected[1]+1]);
 			}
 		} catch { }	
+
 		// Move
 		if (!canMove.length) {
-			if (!this.hasMoved && !board.board[selected[0]-((this.colour == "White")*2-1)*2][selected[1]]) {
+			if (!this.hasMoved && !board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]] && !board.board[selected[0]-((this.colour == "White")*2-1)*2][selected[1]]) {
 				canMove.push([selected[0]-((this.colour == "White")*2-1)*2, selected[1]]);
 			}
 			if (!board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]]) {
@@ -210,6 +212,7 @@ function mousePressed() {
 				board.board[row][col] = board.board[selected[0]][selected[1]];
 				board.board[selected[0]][selected[1]] = undefined;
 				turn++
+				break;
 			}
 		}
 		selected = null;
