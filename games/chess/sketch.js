@@ -163,6 +163,7 @@ class Pawn extends Piece {
 		super(colour);
 		this.piece = this.pieces["Pawn"][this.colour];
 		this.hasMoved = false;
+		this.canBeTrolled = false;
 	}
 
 	getMoves() {
@@ -171,34 +172,48 @@ class Pawn extends Piece {
 
 		// Attack
 		try {
-			if (board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]-1].colour != this.colour) {
-				canMove.push([selected[0]-((this.colour == "White")*2-1), selected[1]-1]);
+			if (board.board[selected[0]-((!(turn%2))*2-1)][selected[1]-1].colour != this.colour) {
+				canMove.push([selected[0]-((!(turn%2))*2-1), selected[1]-1]);
 			}
 		} catch { }
 		try {
-			if (board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]+1].colour != this.colour) {
-				canMove.push([selected[0]-((this.colour == "White")*2-1), selected[1]+1]);
+			if (board.board[selected[0]-((!(turn%2))*2-1)][selected[1]+1].colour != this.colour) {
+				canMove.push([selected[0]-((!(turn%2))*2-1), selected[1]+1]);
 			}
 		} catch { }	
 
 		// Move
 		if (!canMove.length) {
-			if (!this.hasMoved && !board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]] && !board.board[selected[0]-((this.colour == "White")*2-1)*2][selected[1]]) {
-				canMove.push([selected[0]-((this.colour == "White")*2-1)*2, selected[1]]);
+			if (!this.hasMoved && !board.board[selected[0]-((!(turn%2))*2-1)][selected[1]] && !board.board[selected[0]-((!(turn%2))*2-1)*2][selected[1]]) {
+				canMove.push([selected[0]-((!(turn%2))*2-1)*2, selected[1]]);
+				this.canBeTrolled = [selected[0]-((!(turn%2))*2-1)*2, selected[1]];
 			}
-			if (!board.board[selected[0]-((this.colour == "White")*2-1)][selected[1]]) {
-				canMove.push([selected[0]-((this.colour == "White")*2-1), selected[1]]);
+			if (!board.board[selected[0]-((!(turn%2))*2-1)][selected[1]]) {
+				canMove.push([selected[0]-((!(turn%2))*2-1), selected[1]]);
 			}
 		}
 
-		console.log(canMove);
+		// En passant
+		try {
+			if (board.board[selected[0]][selected[1]-1].colour != this.colour && board.board[selected[0]][selected[1]-1].canBeTrolled) {
+				canMove.push([selected[0]-((!(turn%2))*2-1), selected[1]-1]);
+				this.trollingMove = [selected[0]-((!(turn%2))*2-1), selected[1]-1];
+			}
+		} catch { }	
+		try {
+			if (board.board[selected[0]][selected[1]+1].colour != this.colour && board.board[selected[0]][selected[1]+1].canBeTrolled) {
+				canMove.push([selected[0]-((!(turn%2))*2-1), selected[1]+1]);
+				this.trollingMove = [selected[0]-((!(turn%2))*2-1), selected[1]+1];
+			}
+		} catch { }	
+
 		return canMove;
 	}
 }
 
 let turn = 0;
-let selected = null;
-let possibleMoves = null;
+let selected;
+let possibleMoves;
 let board = new Board();
 
 function mousePressed() {
@@ -208,9 +223,17 @@ function mousePressed() {
 	if (selected) {
 		for (let a of possibleMoves) {
 			if (a[0] == row && a[1] == col) {
-				board.board[selected[0]][selected[1]].hasMoved = true;
-				board.board[row][col] = board.board[selected[0]][selected[1]];
-				board.board[selected[0]][selected[1]] = undefined;
+				tile = board.board[selected[0]][selected[1]];
+				if (tile.constructor.name == "Pawn") {
+					tile.hasMoved = true;
+					if (JSON.stringify(tile.trollingMove) == JSON.stringify([row, col])) {
+						board.board[row+((!(turn%2))*2-1)][col] = null;
+						tile.trollingMove = null;
+					}
+				}
+
+				board.board[row][col] = tile;
+				board.board[selected[0]][selected[1]] = null;
 				turn++
 				break;
 			}
