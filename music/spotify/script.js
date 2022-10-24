@@ -1,11 +1,13 @@
 const CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
 let songYears;
 let bandCount;
+let songLength;
 
 async function getData(token) {
 	$("#graphContainer").html("");
 	songYears = [];
 	bandCount = {};
+	songLength = [];
 
 	let result = await fetch("https://api.spotify.com/v1/me/tracks?limit=1", {
 		method: "GET",
@@ -36,11 +38,15 @@ async function getData(token) {
 			if (bandCount[artist]) bandCount[artist] += `\n${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 			else bandCount[artist] = `${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 
+			let songName = `${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
+			let length = song["track"]["duration_ms"];
+			songLength[songName] = length;
+
 			persentage = Math.round(((a*50)+i)/total*100);
 			$("#loadingPersentage").text(persentage);
 		}
 	}
-	drawChart("year");
+	drawChart("years");
 	$("#loading").hide();
 	$("#graphDataType").show();
 	$("#graphContainer").show();
@@ -51,39 +57,58 @@ function drawChart(type) {
 	let data = [];
 	let chart = anychart.column();
 
-	if (type == "year") {
-		years = songYears.map(e => e.split("\n").length);
-		maxYear = Math.max(...Object.keys(years));
-		minYear = Math.min(...Object.keys(years));
-		
-		for (let a = minYear; a < maxYear+1; a++) {
-			data.push({x: a, value: years[a], songs: songYears[a]});
-		}
+	switch (type) {
+		case "years":
+			years = songYears.map(e => e.split("\n").length);
+			maxYear = Math.max(...Object.keys(years));
+			minYear = Math.min(...Object.keys(years));
+			
+			for (let a = minYear; a < maxYear+1; a++) {
+				data.push({x: a, value: years[a], songs: songYears[a]});
+			}
 
-		chart.title("Song release years");
-	} else {
-		data = Object.entries(bandCount).map((e) => {
-			return [e[0], e[1].split("\n").length];
-		}).sort((a, b) => {
-			return b[1] - a[1];
-		});
+			chart.tooltip().format("Number of Songs: {%value}");
+			chart.title("Song Release Years");
+			break;
 
-		chart.title("Band song count");
+		case "bands":
+			data = Object.entries(bandCount).map((e) => {
+				return [e[0], e[1].split("\n").length];
+			}).sort((a, b) => {
+				return b[1] - a[1];
+			});
+
+			chart.tooltip().format("Number of Songs: {%value}");
+			chart.title("Band Song Count");
+			break;
+
+		case "length":
+			data = Object.entries(songLength).sort((a, b) => {
+				return b[1] - a[1];
+			});
+
+			chart.yAxis().labels().format(function() {
+				return `${Math.floor(this.value/1000/60).toString().padStart(2, "0")}:${Math.floor(this.value/1000%60).toString().padStart(2, "0")}`;
+			});
+			chart.tooltip().format(function() {
+				return `${Math.floor(this.value/1000/60).toString().padStart(2, "0")}:${Math.floor(this.value/1000%60).toString().padStart(2, "0")}`;
+			});
+			chart.title("Song Length")
+			break;
+		//
 	}
 
 	chart.container("graphContainer");
 	chart.column(data);
 	chart.tooltip(true);
-	chart.tooltip().format("Number of Songs: {%value}");
 	chart.draw();
-	hasLoadedData = true;
 
 	chart.listen("pointsSelect", (e) => {
 		let songs;
-		if (type == "year") {
-			songs = e.point.getStat("songs").split("\n").sort();
-		} else {
-			songs = bandCount[e.point.getStat("x")].split("\n").sort();
+		switch (type) {
+			case "years": songs = e.point.getStat("songs").split("\n").sort(); break;
+			case "bands": songs = bandCount[e.point.getStat("x")].split("\n").sort(); break;
+			case "length": break;
 		}
 
 		$("#songsList").html("");
