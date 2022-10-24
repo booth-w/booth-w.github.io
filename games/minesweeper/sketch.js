@@ -4,7 +4,7 @@ let flagged = [];
 let size = 12;
 
 function setup() {
-	let canvasSize = 3 + (size-1) * 40 + (size-1) * 3
+	let canvasSize = 3 + (size) * 40 + (size) * 3
 	createCanvas(canvasSize, canvasSize);
 	for (let x = 0; x < size; x++) {
 		grid[x] = [];
@@ -20,7 +20,7 @@ function setup() {
 	textSize(20);
 	firstClicked = true;
 	winAlertShown = false;
-	fail = false
+	fail = false;
 }
 
 function draw() {
@@ -90,7 +90,7 @@ function mousePressed() {
 	let x = floor(mouseX / (43));
 
 	if (!fail) {
-		if (mouseButton === RIGHT) flagged[x][y] = !flagged[x][y]
+		if (mouseButton === RIGHT) flagged[x][y] = !flagged[x][y];
 		else if (!flagged[x][y] && mouseButton === LEFT) {
 			if (firstClicked) { // first turn
 				for (a = -1; a <= 1; a++) {
@@ -124,10 +124,10 @@ function mousePressed() {
 				for (b = -1; b <= 1; b++) {
 					if ((y === 0 && b === -1) || (y === size-1 && b === 1)) continue;
 					n += grid[x + a][y + b];
-					f += flagged[x + a][y + b]
+					f += flagged[x + a][y + b];
 				}
 			}
-			// console.log(n, f, x, y)
+			// console.log(n, f, x, y);
 			if (n == f) {
 				for (a = -1; a <= 1; a++) {
 					if ((x === 0 && a === -1) || (x === size-1 && a === 1)) continue;
@@ -165,6 +165,5 @@ function keyPressed() {
 	}
 	firstClicked = true;
 	winAlertShown = false;
-	fail = false
+	fail = false;
 }
-
