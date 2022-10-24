@@ -4,7 +4,7 @@ let flagged = [];
 let size = 12;
 
 function setup() {
-	let canvasSize = 3 + (size-1) * 40 + (size-1) * 3
+	let canvasSize = 3 + (size) * 40 + (size) * 3
 	createCanvas(canvasSize, canvasSize);
 	for (let x = 0; x < size; x++) {
 		grid[x] = [];
