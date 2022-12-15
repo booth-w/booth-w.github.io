@@ -1,6 +1,7 @@
 :root {
 	--green: #046113;
 	--orange: #AD5700;
+	--red: #8B0000;
 }
 
 button {
@@ -44,10 +45,6 @@ button {
 	padding: 16px;
 }
 
-.letters-container {
-/* 	display: flex; */
-/* 	flex-direction: row; */
-}
 .letters-row {
 	display: flex;
 	flex-direction: row;

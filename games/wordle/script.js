@@ -49,12 +49,12 @@ $("#textBox").keypress((e) => {
 						// console.log(text[index]);
 						if (text[index] == word[index]) {
 							td.style.backgroundColor = "var(--green)";
-							$(`#${text[index]}`).css("backgroundColor", "var(--green)")
+							$(`#${text[index]}`).css("backgroundColor", "var(--green)");
 						} else if (word.split("").includes(text[index])) {
 							td.style.backgroundColor = "var(--orange)";
-							$(`#${text[index]}`).css("backgroundColor", "var(--orange)")
+							$(`#${text[index]}`).css("backgroundColor", "var(--orange)");
 						} else {
-							$(`#${text[index]}`).css("backgroundColor", "black")
+							$(`#${text[index]}`).css("backgroundColor", "var(--red)");
 						}
 					});
 					rowCurrent++;
