@@ -46,12 +46,6 @@ async function getData(token) {
 		}
 	}
 
-	for (let [i, a] of Object.entries(Object.entries(songLength).sort((a, b) => {return a[1] - b[1]}))) {
-		let index = Math.floor(a[1]/1000/classWidth);
-		if (lengthFreq[index]) lengthFreq[index] += `\n${a[0]}`;
-		else lengthFreq[index] = a[0];
-	}
-
 	drawChart("years");
 	$("#loading").hide();
 	$("#graphDataType").show();
@@ -99,17 +93,27 @@ function drawChart(type) {
 			chart.tooltip().format(function() {
 				return `${Math.floor(this.value/1000/60).toString().padStart(2, "0")}:${Math.floor(this.value/1000%60).toString().padStart(2, "0")}`;
 			});
+
 			chart.title("Song Length");
 			break;
 		case "histogram":
+			lengthFreq = [];
+			for (let [i, a] of Object.entries(Object.entries(songLength).sort((a, b) => {return a[1] - b[1]}))) {
+				let index = Math.floor(a[1]/1000/classWidth);
+				if (lengthFreq[index]) lengthFreq[index] += `\n${a[0]}`;
+				else lengthFreq[index] = a[0];
+			}
+
 			for (let a = 0; a < lengthFreq.length; a++) {
 				if (lengthFreq[a]) {
-					data.push({x: `${Math.floor(a*20/60).toString().padStart(2, "0")}:${Math.floor(a*20%60).toString().padStart(2, "0")}`, value: lengthFreq[a].split("\n").length, songs: lengthFreq[a]});
+					data.push({x: `${Math.floor(a*classWidth/60).toString().padStart(2, "0")}:${Math.floor(a*classWidth%60).toString().padStart(2, "0")}`, value: lengthFreq[a].split("\n").length, songs: lengthFreq[a]});
 				} else {
-					data.push({x: `${Math.floor(a*20/60).toString().padStart(2, "0")}:${Math.floor(a*20%60).toString().padStart(2, "0")}`, value: undefined, songs: undefined});
+					data.push({x: `${Math.floor(a*classWidth/60).toString().padStart(2, "0")}:${Math.floor(a*classWidth%60).toString().padStart(2, "0")}`, value: undefined, songs: undefined});
 				}
 			}
-			console.log(data);
+
+			chart.tooltip().format("Number of Songs: {%value}");
+			chart.title(`Song Length Histogram: Class Width = ${classWidth} seconds`);
 			break;
 		//
 	}
@@ -125,7 +129,7 @@ function drawChart(type) {
 			case "years": songs = e.point.getStat("songs").split("\n").sort(); break;
 			case "bands": songs = bandCount[e.point.getStat("x")].split("\n").sort(); break;
 			case "length": break;
-			case "histogram": songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/20].split("\n").sort(); break;
+			case "histogram": songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/classWidth].split("\n").sort(); break;
 		}
 
 		$("#songsList").html("");
@@ -144,7 +148,20 @@ $("#loginButton").click(() => {
 
 $("#graphDataType").on("change", () => {
 	$("#songsList").html("");
+
+	if ($("#graphDataType").val() == "histogram") {
+		$("#classWidthSlider").show();
+	} else {
+		$("#classWidthSlider").hide();
+	}
+
 	drawChart($("#graphDataType").val());
+});
+
+$("#classWidthSlider").on("input", () => {
+	classWidth = $("#classWidthSlider").val();
+	$("#classWidth").html(classWidth);
+	drawChart("histogram");
 });
 
 window.addEventListener("message", (e) => {
