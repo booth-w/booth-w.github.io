@@ -1,13 +1,12 @@
 const CLIENT_ID = "ab628ca99c214f71a7bfe2d7f64a8224";
-let songYears;
-let bandCount;
-let songLength;
+let songYears = [];
+let bandCount = [];
+let songLength = [];
+let lengthFreq = [];
+let classWidth = 20;
 
 async function getData(token) {
 	$("#graphContainer").html("");
-	songYears = [];
-	bandCount = {};
-	songLength = [];
 
 	let result = await fetch("https://api.spotify.com/v1/me/tracks?limit=1", {
 		method: "GET",
@@ -46,6 +45,13 @@ async function getData(token) {
 			$("#loadingPersentage").text(persentage);
 		}
 	}
+
+	for (let [i, a] of Object.entries(Object.entries(songLength).sort((a, b) => {return a[1] - b[1]}))) {
+		let index = Math.floor(a[1]/1000/classWidth);
+		if (lengthFreq[index]) lengthFreq[index] += `\n${a[0]}`;
+		else lengthFreq[index] = a[0];
+	}
+
 	drawChart("years");
 	$("#loading").hide();
 	$("#graphDataType").show();
@@ -84,7 +90,7 @@ function drawChart(type) {
 
 		case "length":
 			data = Object.entries(songLength).sort((a, b) => {
-				return b[1] - a[1];
+				return a[1] - b[1];
 			});
 
 			chart.yAxis().labels().format(function() {
@@ -93,7 +99,17 @@ function drawChart(type) {
 			chart.tooltip().format(function() {
 				return `${Math.floor(this.value/1000/60).toString().padStart(2, "0")}:${Math.floor(this.value/1000%60).toString().padStart(2, "0")}`;
 			});
-			chart.title("Song Length")
+			chart.title("Song Length");
+			break;
+		case "histogram":
+			for (let a = 0; a < lengthFreq.length; a++) {
+				if (lengthFreq[a]) {
+					data.push({x: `${Math.floor(a*20/60).toString().padStart(2, "0")}:${Math.floor(a*20%60).toString().padStart(2, "0")}`, value: lengthFreq[a].split("\n").length, songs: lengthFreq[a]});
+				} else {
+					data.push({x: `${Math.floor(a*20/60).toString().padStart(2, "0")}:${Math.floor(a*20%60).toString().padStart(2, "0")}`, value: undefined, songs: undefined});
+				}
+			}
+			console.log(data);
 			break;
 		//
 	}
@@ -109,6 +125,7 @@ function drawChart(type) {
 			case "years": songs = e.point.getStat("songs").split("\n").sort(); break;
 			case "bands": songs = bandCount[e.point.getStat("x")].split("\n").sort(); break;
 			case "length": break;
+			case "histogram": songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/20].split("\n").sort(); break;
 		}
 
 		$("#songsList").html("");
