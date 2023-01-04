@@ -4,6 +4,7 @@ let bandCount = [];
 let songLength = [];
 let lengthFreq = [];
 let classWidth = 20;
+let histogramAvarage = false;
 
 async function getData(token) {
 	$("#graphContainer").html("");
@@ -37,9 +38,8 @@ async function getData(token) {
 			if (bandCount[artist]) bandCount[artist] += `\n${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 			else bandCount[artist] = `${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 
-			let songName = `${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
 			let length = song["track"]["duration_ms"];
-			songLength[songName] = length;
+			songLength[`${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`] = length;
 
 			persentage = Math.round(((a*50)+i)/total*100);
 			$("#loadingPersentage").text(persentage);
@@ -54,6 +54,7 @@ async function getData(token) {
 
 function drawChart(type) {
 	$("#graphContainer").html("");
+	$("#songsList").html("");
 	let data = [];
 	let chart = anychart.column();
 
@@ -96,6 +97,7 @@ function drawChart(type) {
 
 			chart.title("Song Length");
 			break;
+
 		case "histogram":
 			lengthFreq = [];
 			for (let [i, a] of Object.entries(Object.entries(songLength).sort((a, b) => {return a[1] - b[1]}))) {
@@ -112,14 +114,30 @@ function drawChart(type) {
 				}
 			}
 
+			dataAvarage = [];
+			for (let a = 0; a < data.length; a++) {
+				let sum = 0;
+				let count = 0;
+				for (let b = -1; b < 2; b++) {
+					if (data[a+b]) {
+						if (data[a+b].value) {
+							sum += data[a+b].value;
+							count++;
+						}
+					}
+				}
+				dataAvarage.push({x: data[a].x, value: sum/count, songs: data[a].songs});
+			}
+
 			chart.tooltip().format("Number of Songs: {%value}");
-			chart.title(`Song Length Histogram: Class Width = ${classWidth} seconds`);
+			chart.title(`Song Length Histogram: Class Width = ${classWidth} seconds ${histogramAvarage ? "(3-point Moving Avarage)" : ""}`);
 			break;
 		//
 	}
 
 	chart.container("graphContainer");
-	chart.column(data);
+	if (type == "histogram" && histogramAvarage) chart.column(dataAvarage);
+	else chart.column(data);
 	chart.tooltip(true);
 	chart.draw();
 
@@ -129,7 +147,7 @@ function drawChart(type) {
 			case "years": songs = e.point.getStat("songs").split("\n").sort(); break;
 			case "bands": songs = bandCount[e.point.getStat("x")].split("\n").sort(); break;
 			case "length": break;
-			case "histogram": songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/classWidth].split("\n").sort(); break;
+			case "histogram": if (histogramAvarage) break; else songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/classWidth].split("\n").sort(); break;
 		}
 
 		$("#songsList").html("");
@@ -147,12 +165,12 @@ $("#loginButton").click(() => {
 });
 
 $("#graphDataType").on("change", () => {
-	$("#songsList").html("");
-
 	if ($("#graphDataType").val() == "histogram") {
 		$("#classWidthSlider").show();
+		$("#histogramToggle").show();
 	} else {
 		$("#classWidthSlider").hide();
+		$("#histogramToggle").hide();
 	}
 
 	drawChart($("#graphDataType").val());
@@ -161,6 +179,11 @@ $("#graphDataType").on("change", () => {
 $("#classWidthSlider").on("input", () => {
 	classWidth = $("#classWidthSlider").val();
 	$("#classWidth").html(classWidth);
+	drawChart("histogram");
+});
+
+$("#histogramToggle").on("change", () => {
+	histogramAvarage = $("#histogramToggle").prop("checked");
 	drawChart("histogram");
 });
 
