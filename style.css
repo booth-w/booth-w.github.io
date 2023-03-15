@@ -92,7 +92,7 @@ a {
 .link-button {
 	margin: 5px;
 	background-color: var(--bg-high);
-	border-color: var(--bg-high);
+	border: none;
 	padding: 5px;
 	color: whitesmoke;
 	width: calc(100% - 10px);
