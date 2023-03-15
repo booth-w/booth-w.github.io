@@ -18,6 +18,7 @@ class Board {
 		// this.colours = ["white", "red", "yellow"];
 		this.colours = ["#8E9199", "midnightblue", "crimson"];
 		// this.colours = ["white", "rebeccapurple", "seagreen"];
+		this.isGravityReversed = false;
 	}
 
 	display() {
@@ -44,6 +45,35 @@ class Board {
 			}
 		}
 		this.boardTemp = JSON.parse(JSON.stringify(this.board));
+	}
+
+	flipGravity() {
+		let height = this.board.length;
+		let width = this.board[0].length;
+		let flippedArray = [];
+		let flippedArrayTemp = [];
+	
+		for (let i = 0; i < height; i++) {
+			flippedArray.push(new Array(width).fill(0));
+			flippedArrayTemp.push(new Array(width).fill(0));
+		}
+	
+		for (let col = 0; col < width; col++) {
+			let currentHeight = this.isGravityReversed ? 0 : height - 1;
+			let delta = this.isGravityReversed ? 1 : -1;
+			for (let row = this.isGravityReversed ? 0 : height - 1; this.isGravityReversed ? row < height : row >= 0; row += delta) {
+				if (this.boardTemp[row][col] != 0) {
+					console.log(currentHeight, row, col);
+					flippedArray[currentHeight][col] = this.board[row][col];
+					flippedArrayTemp[currentHeight][col] = this.boardTemp[row][col];
+					currentHeight += delta;
+				}
+			}
+		}
+
+		this.board = flippedArray;
+		this.boardTemp = flippedArrayTemp;
+		this.isGravityReversed = !this.isGravityReversed;
 	}
 }
 
@@ -175,6 +205,7 @@ let player1 = new Player("Player 2", 2);
 // let player1 = new Bot("Bot", 2);
 // Set player 1 back to human before commiting a change
 let turn = 0;
+let gravity = false;
 
 board.create();
 
@@ -185,8 +216,17 @@ function mouseMoved() {
 function mousePressed() {
 	if (mouseX >= 0 && mouseX <= width) {
 		board.board = JSON.parse(JSON.stringify(board.boardTemp));
+		if (gravity) {
+			board.flipGravity();
+		}
 		eval(`player${turn % 2}.makeMove()`);
 		turn++;
 		eval(`player${turn % 2}.makeMove()`);
 	}
 }
+
+$("#gravityToggle").on("change", () => {
+	board.create();
+	turn = 0;
+	gravity = !gravity;
+});
