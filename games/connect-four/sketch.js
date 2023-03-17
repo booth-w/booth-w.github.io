@@ -85,14 +85,14 @@ class Player {
 
 	makeMove() {
 		let x = floor(mouseX / 60);
-		let y = 0;
+		let y = board.isGravityReversed ? 5 : 0;
 
 		// Why are arrays like this?
 		board.boardTemp = JSON.parse(JSON.stringify(board.board));
 		if (x >= 0 && x <= 6) {
 			try {
 				while (board.board[5 - y][x]) {
-					y++;
+					y += board.isGravityReversed ? -1 : 1;
 				}
 				board.boardTemp[5 - y][x] = this.number;
 			} catch (TypeError) { }
