@@ -1,7 +1,8 @@
 let points = [];
 
 function setup() {
-	createCanvas(windowWidth, windowHeight / 1);
+	let canvas = createCanvas(windowWidth, windowHeight / 2);
+	canvas.parent("canvas");
 	fill(200);
 
 	for (let i = 0; i < 10; i++) {
@@ -50,5 +51,5 @@ class Point {
 }
 
 function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
+	resizeCanvas(windowWidth, windowHeight / 2);
 }
