@@ -1,7 +1,8 @@
 let points = [];
 
 function setup() {
-	let canvas = createCanvas(windowWidth, windowHeight / 2);
+	// set size to parent div
+	let canvas = createCanvas($("#canvas").width(), $("#canvas").height());
 	canvas.parent("canvas");
 	fill(200);
 
@@ -51,5 +52,5 @@ class Point {
 }
 
 function windowResized() {
-	resizeCanvas(windowWidth, windowHeight / 2);
+	resizeCanvas($("#canvas").width(), $("#canvas").height());
 }
