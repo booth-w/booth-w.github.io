@@ -1,0 +1,28 @@
+.links {
+	display: flex;
+	flex-direction: row;
+	margin: 100px;
+	justify-content: space-evenly;
+}
+.links > * {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 32px;
+}
+.links > * > * {
+	margin: 0 10px;
+}
+
+a {
+	color: rgb(137, 25, 138);
+	text-decoration: none;
+	font-family: "Roboto", sans-serif;
+}
+a:hover {
+	color: rgb(137, 25, 138);
+	text-decoration: underline;
+}
+a:active {
+	color: rgb(137, 25, 138);
+}
