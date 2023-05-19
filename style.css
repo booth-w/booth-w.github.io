@@ -30,6 +30,9 @@ header {
 	color: rgb(137, 25, 138);
 	padding-left: 10px;
 }
+.nav > a:hover {
+	text-decoration: underline;
+}
 
 #canvas {
 	height: calc(100% - 64px - 4.5rem);
