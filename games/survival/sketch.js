@@ -11,6 +11,12 @@ function setup() {
 	player = new Player();
 
 	setInterval(() => {
+		if (player.health < 10) {
+			player.health += .1;
+		}
+	}, 1000);
+
+	setInterval(() => {
 		if (enemys.length < 3) {
 			enemys.push(new Enemy());
 		}
@@ -52,7 +58,7 @@ function draw() {
 	
 	time = Math.floor(millis() / 10);
 	textSize(24)
-	time = time.toString().slice(0, -2) + ":" + time.toString().slice(-2);
+	time = time.toString().slice(0, -2) + "." + time.toString().slice(-2);
 	if (time.length < 4) {
 		time = "0" + time;
 	}
