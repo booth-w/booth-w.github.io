@@ -1,5 +1,6 @@
 function setup() {
-	createCanvas(800, 800);
+	let cnv = createCanvas(800, 800);
+	cnv.parent("canvas");
 	reset();
 }
 
@@ -25,6 +26,7 @@ class Player{
 		this.moveDir = "right";
 		this.inputQueue = [];
 		this.score = 0;
+		this.bot = false;
 	}
 
 	bufferInput(keyCode) {
@@ -33,14 +35,94 @@ class Player{
 		}
 	}
 
+	generatePath(start, end) {
+		let openSet = [start];
+		let cameFrom = {};
+		let gScore = {};
+		let fScore = {};
+
+		gScore[JSON.stringify(start)] = 0;
+		fScore[JSON.stringify(start)] = Math.abs(start[0] - end[0]) + Math.abs(start[1] - end[1]);
+
+		while (openSet.length > 0) {
+			let current = openSet.reduce((a, b) => fScore[JSON.stringify(a)] < fScore[JSON.stringify(b)] ? a : b);
+			if (JSON.stringify(current) == JSON.stringify(end)) {
+				let totalPath = [current];
+					while (JSON.stringify(current) in cameFrom) {
+						current = cameFrom[JSON.stringify(current)];
+						totalPath.unshift(current);
+					}
+				return totalPath;
+			}
+
+			openSet.splice(openSet.indexOf(current), 1);
+			let neighbors = [[current[0] + 1, current[1]], [current[0] - 1, current[1]], [current[0], current[1] + 1], [current[0], current[1] - 1]];
+			for (let a of neighbors) {
+				if (a[0] < 0 || a[0] > 39 || a[1] < 0 || a[1] > 39 || JSON.stringify(this.body).includes(JSON.stringify(a))) continue;
+				let tentativeGScore = gScore[JSON.stringify(current)] + 1;
+				if (!(JSON.stringify(a) in gScore) || tentativeGScore < gScore[JSON.stringify(a)]) {
+					cameFrom[JSON.stringify(a)] = current;
+					gScore[JSON.stringify(a)] = tentativeGScore;
+					fScore[JSON.stringify(a)] = gScore[JSON.stringify(a)] + Math.abs(a[0] - end[0]) + Math.abs(a[1] - end[1]);
+					if (!openSet.some(b => JSON.stringify(b) == JSON.stringify(a))) {
+						openSet.push(a);
+					}
+				}
+			}
+		}
+
+		let path = [start];
+		let current = start;
+
+		for (let a = 0; a < 5; a++) {
+			let neighbors = [[current[0] + 1, current[1]], [current[0] - 1, current[1]], [current[0], current[1] + 1], [current[0], current[1] - 1]];
+			let validNeighbors = neighbors.reduce((b, n) => {
+				if (n[0] >= 0 && n[0] <= 39 && n[1] >= 0 && n[1] <= 39 && !JSON.stringify(this.body).includes(JSON.stringify(n))) {
+					b.push(n);
+				}
+				return b;
+			}, []);
+			if (validNeighbors.length == 0) {
+				return path;
+			} else {
+				current = validNeighbors[0];
+				path.push(current);
+			}
+		}
+		return path;
+	}
+
 	move() {
-		if (this.inputQueue.length > 0) {
-			let newMoveDir = this.inputQueue.shift();
-			if (newMoveDir == "up" && this.moveDir != "down" ||
-				newMoveDir == "down" && this.moveDir != "up" ||
-				newMoveDir == "left" && this.moveDir != "right" ||
-				newMoveDir == "right" && this.moveDir != "left") {
-				this.moveDir = newMoveDir;
+		if (this.bot) {
+			let path = this.generatePath(this.body[0], food.pos);
+			if (path.length > 1) {
+				let newMoveDir = (() => {
+					if (path[1][0] > path[0][0]) {
+						return "right";
+					} else if (path[1][0] < path[0][0]) {
+						return "left";
+					} else if (path[1][1] > path[0][1]) {
+						return "down";
+					} else if (path[1][1] < path[0][1]) {
+						return "up";
+					}
+				})();
+				if (newMoveDir == "up" && this.moveDir != "down" ||
+					newMoveDir == "down" && this.moveDir != "up" ||
+					newMoveDir == "left" && this.moveDir != "right" ||
+					newMoveDir == "right" && this.moveDir != "left") {
+					this.moveDir = newMoveDir;
+				}
+			}
+		} else {
+			if (this.inputQueue.length > 0) {
+				let newMoveDir = this.inputQueue.shift();
+				if (newMoveDir == "up" && this.moveDir != "down" ||
+					newMoveDir == "down" && this.moveDir != "up" ||
+					newMoveDir == "left" && this.moveDir != "right" ||
+					newMoveDir == "right" && this.moveDir != "left") {
+					this.moveDir = newMoveDir;
+				}
 			}
 		}
 
@@ -125,3 +207,8 @@ function reset() {
 function keyPressed() {
 	player.bufferInput(keyCode);
 }
+
+$("#botToggle").click(() => {
+	reset();
+	player.bot = $("#botToggle").prop("checked");
+});
