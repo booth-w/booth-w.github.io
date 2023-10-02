@@ -2,15 +2,15 @@ function setup() {
 	let cnv = createCanvas(800, 800);
 	cnv.parent("canvas");
 	reset();
+	frameRate(parseInt($("#speed").val()));
 }
 
 function draw() {
 	background(20);
-	frameRate(10);
 
 	player.move();
-	player.draw();
 	player.eat();
+	player.draw();
 	food.draw();
 }
 
@@ -26,7 +26,7 @@ class Player{
 		this.moveDir = "right";
 		this.inputQueue = [];
 		this.score = 0;
-		this.bot = false;
+		this.bot = $("#botToggle").prop("checked");
 	}
 
 	bufferInput(keyCode) {
@@ -211,4 +211,22 @@ function keyPressed() {
 $("#botToggle").click(() => {
 	reset();
 	player.bot = $("#botToggle").prop("checked");
+});
+
+let drawLoop;
+
+$("#speed, #speedToggle").change(() => {
+	clearInterval(drawLoop);
+	if ($("#speedToggle").prop("checked")) {
+		$("#speed").attr("max", "");
+		noLoop();
+		drawLoop = setInterval(() => {
+			redraw();
+		}, 1000 / parseInt($("#speed").val()));
+	} else {
+		loop();
+		$("#speed").attr("max", "60");
+		if (parseInt($("#speed").val()) > 60) $("#speed").val(60);
+		frameRate(parseInt($("#speed").val()));
+	}
 });
