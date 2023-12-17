@@ -3,6 +3,7 @@ let songYears = [];
 let bandCount = [];
 let songLength = [];
 let lengthFreq = [];
+let explicitCount = [];
 let classWidth = 20;
 let histogramAvarage = false;
 
@@ -40,6 +41,10 @@ async function getData(token) {
 
 			let length = song["track"]["duration_ms"];
 			songLength[`${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`] = length;
+
+			let explicit = song["track"]["explicit"];
+			if (explicitCount[explicit]) explicitCount[explicit] += `\n${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
+			else explicitCount[explicit] = `${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
 
 			persentage = Math.round(((a*50)+i)/total*100);
 			$("#loadingPersentage").text(persentage);
@@ -132,7 +137,15 @@ function drawChart(type) {
 			chart.tooltip().format("Number of Songs: {%value}");
 			chart.title(`Song Length Histogram: Class Width = ${classWidth} seconds ${histogramAvarage ? "(3-point Moving Avarage)" : ""}`);
 			break;
-		//
+		
+		case "explicit":
+			data = Object.entries(explicitCount).map((e) => {
+				return {x: e[0] == "true" ? "Explicit" : "Not Explicit", value: e[1].split("\n").length, songs: e[1]}
+			});
+
+			chart.tooltip().format("Number of Songs: {%value}");
+			chart.title("Explicit Lyrics Count");
+			break;
 	}
 
 	chart.container("graphContainer");
@@ -148,6 +161,7 @@ function drawChart(type) {
 			case "bands": songs = bandCount[e.point.getStat("x")].split("\n").sort(); break;
 			case "length": break;
 			case "histogram": if (histogramAvarage) break; else songs = lengthFreq[(parseInt(e.point.getStat("x").split(":")[0]*60) + parseInt(e.point.getStat("x").split(":")[1]))/classWidth].split("\n").sort(); break;
+			case "explicit": songs = e.point.getStat("songs").split("\n").sort(); break;
 		}
 
 		$("#songsList").html("");
