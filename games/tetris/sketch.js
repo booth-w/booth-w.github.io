@@ -1,12 +1,16 @@
 function setup() {
-	createCanvas(200, 400);
+	createCanvas(320, 400);
 	tetris = new Tetris();
 }
 
 function draw() {
-	background(51);
+	stroke(51);
+	fill(51);
+	rect(0, 0, 200, 400);
+	stroke(0);
 	tetris.update();
 	tetris.draw();
+	tetris.drawNext();
 }
 
 class Tetris {
@@ -281,6 +285,23 @@ class Tetris {
 				} else if (this.gridGhost[y][x]) {
 					fill(this.piece.colours[this.piece.piece][0], this.piece.colours[this.piece.piece][1], this.piece.colours[this.piece.piece][2], 100)
 					rect(x * 20, y * 20, 20, 20);
+				}
+			}
+		}
+	}
+
+	drawNext() {
+		// draw the next box
+		stroke(51);
+		fill(51);
+		rect(200, 0, 120, 100);
+		stroke(0);
+		// draw the next piece
+		for (let y = 0; y < this.pieceNext.shape.length; y++) {
+			for (let x = 0; x < this.pieceNext.shape[y].length; x++) {
+				if (this.pieceNext.shape[y][x]) {
+					fill(this.pieceNext.colours[this.pieceNext.piece])
+					rect(220 + x * 20, y * 20, 20, 20);
 				}
 			}
 		}
