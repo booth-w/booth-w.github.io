@@ -26,6 +26,7 @@ class Tetris {
 		}
 		this.fallSpeed = 5;
 		this.pieceNext = new piece();
+		this.lines = 0;
 	}
 
 	update() {
@@ -40,6 +41,7 @@ class Tetris {
 					}
 				}
 				if (line) {
+					this.lines++;
 					// remove line
 					for (let x = 0; x < 10; x++) {
 						this.grid[y][x] = 0;
@@ -58,8 +60,13 @@ class Tetris {
 			// add to grid
 			for (let y = 0; y < this.piece.shape.length; y++) {
 				for (let x = 0; x < this.piece.shape[y].length; x++) {
+					if (this.grid[y][x + 3]) {
+						// top out
+						alert(`Lines cleared: ${this.lines}`);
+						tetris = new Tetris();
+						return;
+					}
 					if (this.piece.shape[y][x]) {
-						// this.grid[y][x + 3] = this.piece.piece + 1;
 						this.gridActive[y][x + 3] = 1;
 					}
 				}
