@@ -31,6 +31,28 @@ class Tetris {
 	update() {
 		// new piece
 		if (this.piece == null) {
+			// check for lines
+			for (let y = 0; y < 20; y++) {
+				let line = true;
+				for (let x = 0; x < 10; x++) {
+					if (!this.grid[y][x]) {
+						line = false;
+					}
+				}
+				if (line) {
+					// remove line
+					for (let x = 0; x < 10; x++) {
+						this.grid[y][x] = 0;
+					}
+					// move down
+					for (let y2 = y; y2 > 0; y2--) {
+						for (let x = 0; x < 10; x++) {
+							this.grid[y2][x] = this.grid[y2 - 1][x];
+							this.grid[y2 - 1][x] = 0;
+						}
+					}
+				}
+			}
 			this.piece = this.pieceNext;
 			this.pieceNext = new piece();
 			// add to grid
@@ -91,29 +113,6 @@ class Tetris {
 				}
 				// clear piece
 				this.piece = null;
-
-				// check for lines
-				for (let y = 0; y < 20; y++) {
-					let line = true;
-					for (let x = 0; x < 10; x++) {
-						if (!this.grid[y][x]) {
-							line = false;
-						}
-					}
-					if (line) {
-						// remove line
-						for (let x = 0; x < 10; x++) {
-							this.grid[y][x] = 0;
-						}
-						// move down
-						for (let y2 = y; y2 > 0; y2--) {
-							for (let x = 0; x < 10; x++) {
-								this.grid[y2][x] = this.grid[y2 - 1][x];
-								this.grid[y2 - 1][x] = 0;
-							}
-						}
-					}
-				}
 			}
 		}
 
@@ -247,7 +246,19 @@ class Tetris {
 			} else {
 				this.piece.rotation--;
 			}
-
+		} else if (key == " ") {
+			// hard drop
+			for (let y = 0; y < 20; y++) {
+				for (let x = 0; x < 10; x++) {
+					if (this.gridActive[y][x]) {
+						this.gridActive[y][x] = 0;
+					}
+					if (this.gridGhost[y][x]) {
+						this.grid[y][x] = this.piece.piece + 1;
+					}
+				}
+			}
+			this.piece = null;
 		}
 	}
 
