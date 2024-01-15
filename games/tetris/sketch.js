@@ -13,12 +13,15 @@ class Tetris {
 	constructor() {
 		this.grid = [];
 		this.gridActive = [];
+		this.gridGhost = [];
 		for (let y = 0; y < 20; y++) {
 			this.grid.push([]);
 			this.gridActive.push([]);
+			this.gridGhost.push([]);
 			for (let x = 0; x < 10; x++) {
 				this.grid[y].push(0);
 				this.gridActive[y].push(0);
+				this.gridGhost[y].push(0);
 			}
 		}
 		this.fallSpeed = 5;
@@ -34,7 +37,7 @@ class Tetris {
 			for (let y = 0; y < this.piece.shape.length; y++) {
 				for (let x = 0; x < this.piece.shape[y].length; x++) {
 					if (this.piece.shape[y][x]) {
-						this.grid[y][x + 3] = this.piece.piece + 1;
+						// this.grid[y][x + 3] = this.piece.piece + 1;
 						this.gridActive[y][x + 3] = 1;
 					}
 				}
@@ -49,7 +52,7 @@ class Tetris {
 				for (let x = 0; x < 10; x++) {
 					if (this.gridActive[y][x]) {
 						try {
-							if (y == 19 || this.grid[y + 1][x] && !this.gridActive[y + 1][x]) {
+							if (y == 19 || this.grid[y + 1][x]) {
 								canMove = false;
 							}
 						} catch {}
@@ -63,13 +66,21 @@ class Tetris {
 						if (this.gridActive[y][x]) {
 							this.gridActive[y][x] = 0;
 							this.gridActive[y + 1][x] = 1;
-							this.grid[y + 1][x] = this.grid[y][x];
-							this.grid[y][x] = 0;
+							// this.grid[y + 1][x] = this.grid[y][x];
+							// this.grid[y][x] = 0;
 						}
 					}
 				}
 				this.piece.pos.y++;
 			} else {
+				// add to grid
+				for (let y = 0; y < this.piece.shape.length; y++) {
+					for (let x = 0; x < this.piece.shape[y].length; x++) {
+						if (this.piece.shape[y][x]) {
+							this.grid[y + this.piece.pos.y][x + this.piece.pos.x] = this.piece.piece + 1;
+						}
+					}
+				}
 				// set to inactive
 				for (let y = 0; y < 20; y++) {
 					for (let x = 0; x < 10; x++) {
@@ -105,6 +116,43 @@ class Tetris {
 				}
 			}
 		}
+
+		// ghost
+		this.gridGhost = JSON.parse(JSON.stringify(this.gridActive));
+
+		// move ghost down until it hits something
+		while (true) {
+			// check if can move down
+			let canMove = true;
+			for (let y = 0; y < 20; y++) {
+				for (let x = 0; x < 10; x++) {
+					if (this.gridGhost[y][x]) {
+						try {
+							if (y == 19 || this.grid[y + 1][x] && !this.gridActive[y + 1][x] && !this.gridGhost[y + 1][x]) {
+								canMove = false;
+							}
+						} catch {
+							canMove = false;
+						}
+					}
+				}
+			}
+			// move down if can
+			if (canMove) {
+				for (let y = 19; y >= 0; y--) {
+					for (let x = 0; x < 10; x++) {
+						if (this.gridGhost[y][x]) {
+							this.gridGhost[y][x] = 0;
+							this.gridGhost[y + 1][x] = 1;
+						}
+					}
+				}
+				// break if did not move
+				if (JSON.stringify(this.gridGhost) == JSON.stringify(this.gridActive)) break;
+			} else {
+				break;
+			}
+		}
 	}
 
 	keyPressed() {
@@ -115,7 +163,7 @@ class Tetris {
 				for (let x = 0; x < 10; x++) {
 					if (this.gridActive[y][x]) {
 						try {
-							if (x == 0 || this.grid[y][x - 1] && !this.gridActive[y][x - 1]) {
+							if (x == 0 || this.grid[y][x - 1]) {
 								canMove = false;
 							}
 						} catch {}
@@ -129,8 +177,6 @@ class Tetris {
 						if (this.gridActive[y][x]) {
 							this.gridActive[y][x] = 0;
 							this.gridActive[y][x - 1] = 1;
-							this.grid[y][x - 1] = this.grid[y][x];
-							this.grid[y][x] = 0;
 						}
 					}
 				}
@@ -143,7 +189,7 @@ class Tetris {
 				for (let x = 0; x < 10; x++) {
 					if (this.gridActive[y][x]) {
 						try {
-							if (x == 9 || this.grid[y][x + 1] && !this.gridActive[y][x + 1]) {
+							if (x == 9 || this.grid[y][x + 1]) {
 								canMove = false;
 							}
 						} catch {}
@@ -157,8 +203,6 @@ class Tetris {
 						if (this.gridActive[y][x]) {
 							this.gridActive[y][x] = 0;
 							this.gridActive[y][x + 1] = 1;
-							this.grid[y][x + 1] = this.grid[y][x];
-							this.grid[y][x] = 0;
 						}
 					}
 				}
@@ -192,23 +236,13 @@ class Tetris {
 			loop:
 			for (let y = 0; y < 20; y++) {
 				for (let x = 0; x < 10; x++) {
-					if (newGridActive[y][x] && this.grid[y][x] && !this.gridActive[y][x]) {
+					if (newGridActive[y][x] && this.grid[y][x]) {
 						canRotate = false;
 						break loop;
 					}
 				}
 			}
 			if (canRotate) {
-				for (let y = 0; y < 20; y++) {
-					for (let x = 0; x < 10; x++) {
-						if (this.gridActive[y][x]) {
-							this.grid[y][x] = 0;
-						}
-						if (newGridActive[y][x]) {
-							this.grid[y][x] = this.piece.piece + 1;
-						}
-					}
-				}
 				this.gridActive = newGridActive;
 			} else {
 				this.piece.rotation--;
@@ -221,7 +255,13 @@ class Tetris {
 		for (let y = 0; y < 20; y++) {
 			for (let x = 0; x < 10; x++) {
 				if (this.grid[y][x]) {
-					fill(this.pieceNext.colours[this.grid[y][x] - 1]);
+					fill(this.pieceNext.colours[this.grid[y][x] - 1])
+					rect(x * 20, y * 20, 20, 20);
+				} else if (this.gridActive[y][x]) {
+					fill(this.piece.colours[this.piece.piece])
+					rect(x * 20, y * 20, 20, 20);
+				} else if (this.gridGhost[y][x]) {
+					fill(this.piece.colours[this.piece.piece][0], this.piece.colours[this.piece.piece][1], this.piece.colours[this.piece.piece][2], 100)
 					rect(x * 20, y * 20, 20, 20);
 				}
 			}
