@@ -1,8 +1,8 @@
 function setup() {
-	createCanvas(400, 400);
+	let canvas = createCanvas(400, 400);
+	canvas.parent("canvas");
 	textAlign(CENTER, CENTER);
 	textSize(32);
-	noFill();
 	noLoop();
 	redraw();
 	board = new Board();
@@ -18,6 +18,7 @@ function draw() {
 class Board {
 	constructor() {
     this.tiles = Array(4).fill().map(() => Array(4).fill(new Tile(0)));
+		this.score = 0;
 	}
 
 	draw() {
@@ -26,6 +27,7 @@ class Board {
 				tile.draw(x, y);
 			});
 		});
+		$("#score").text(`Score: ${this.score}`);
 	}
 
 	move(dir) {
@@ -43,6 +45,7 @@ class Board {
 					}
 					if (y > 0 && rotated[y - 1][x].value == rotated[y][x].value) {
 						rotated[y - 1][x] = new Tile(rotated[y - 1][x].value * 2);
+						this.score += rotated[y - 1][x].value;
 						rotated[y][x] = new Tile(0);
 						moved = true;
 					}
