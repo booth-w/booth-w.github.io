@@ -1,8 +1,10 @@
 let bird;
+let pipes = [];
 let assets;
 let scale = 3;
 let gravity = 0.18 * scale;
 let jumpForse = -3 * scale;
+let pipeSpeed = -1 * scale;
 let hasStarted = false;
 
 function setup() {
@@ -18,17 +20,26 @@ function preload() {
 			ground: spriteSheet.get(146, 0, 144, 56),
 			bird1: spriteSheet.get(264, 64, 17, 12),
 			bird2: spriteSheet.get(264, 90, 17, 12),
-			bird3: spriteSheet.get(223, 124, 17, 12)
+			bird3: spriteSheet.get(223, 124, 17, 12),
+			pipeTop: spriteSheet.get(302, 0, 26, 135),
+			pipeBottom: spriteSheet.get(330, 0, 26, 121)
 		};
 	});
 }
 
 function draw() {
 	image(assets.background, 0, 0, 144*scale, 256*scale);
-	image(assets.ground, 0, 200*scale, 144*scale, 56*scale);
-
+	
+	pipes.forEach(pipe => {
+		pipe.pos.add(pipe.vel);
+		pipe.draw();
+	});
+		
 	bird.update();
 	bird.draw();
+	
+	image(assets.ground, -(frameCount*scale % width), 200*scale, 144*scale, 56*scale);
+	image(assets.ground, -(frameCount*scale % width)+width, 200*scale, 144*scale, 56*scale);
 }
 
 class Bird {
@@ -43,7 +54,6 @@ class Bird {
 			this.vel.y += gravity;
 			this.vel.y = constrain(this.vel.y, jumpForse, 10);
 			this.pos.y += this.vel.y;
-
 			this.pos.y = constrain(this.pos.y, 0, height - 12*scale);
 		}
 	}
@@ -64,3 +74,23 @@ function keyPressed() {
 		bird.flap();
 	}
 }
+
+
+class Pipe {
+	constructor() {
+		this.pos = createVector(width, random(55, 145));
+		this.vel = createVector(pipeSpeed, 0);
+	}
+
+	draw() {
+		image(assets.pipeTop, this.pos.x, (this.pos.y-135)*scale - 24*scale, 24*scale, 135*scale);
+		image(assets.pipeBottom, this.pos.x, (this.pos.y+24)*scale, 24*scale, 121*scale);
+	}
+}
+
+setInterval(() => {
+	pipes.push(new Pipe());
+	if (pipes.length > 2) {
+		pipes.shift();
+	}
+}, 1500);
