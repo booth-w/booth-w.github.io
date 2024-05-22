@@ -55,6 +55,11 @@ class Bird {
 			this.vel.y = constrain(this.vel.y, jumpForse, 10);
 			this.pos.y += this.vel.y;
 			this.pos.y = constrain(this.pos.y, 0, height - 12*scale);
+
+			if (this.isHit()) {
+				noLoop();
+				location.reload();
+			}
 		}
 	}
 	
@@ -66,6 +71,18 @@ class Bird {
 	flap() {
 		this.vel.y = jumpForse;
 	}
+
+	isHit() {
+		if (this.pos.y > 188*scale) return true;
+
+		return pipes.some(pipe => {
+			if (this.pos.x + 17*scale > pipe.pos.x && this.pos.x < pipe.pos.x + 24*scale) {
+				let isAboveTop = this.pos.y < pipe.pos.y*scale - 24*scale;
+				let isBelowBottom = this.pos.y + 12*scale > pipe.pos.y*scale + 24*scale;
+				return isAboveTop || isBelowBottom;
+			}
+		});
+	}
 }
 
 function keyPressed() {
@@ -74,7 +91,6 @@ function keyPressed() {
 		bird.flap();
 	}
 }
-
 
 class Pipe {
 	constructor() {
@@ -89,8 +105,10 @@ class Pipe {
 }
 
 setInterval(() => {
-	pipes.push(new Pipe());
-	if (pipes.length > 2) {
-		pipes.shift();
+	if (hasStarted) {
+		pipes.push(new Pipe());
+		if (pipes.length > 2) {
+			pipes.shift();
+		}
 	}
 }, 1500);
