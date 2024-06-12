@@ -47,6 +47,9 @@ class Bird {
 		this.pos = createVector(width/3 - 8, height/2);
 		this.vel = createVector(0, 0);
 		this.rotation = 0;
+		this.birds = [assets.bird1, assets.bird1, assets.bird2, assets.bird3, assets.bird3, assets.bird2];
+		this.framesSinceJump = 0;
+		this.framesSinceFastFall = 0;
 	}
 
 	update() {
@@ -64,12 +67,33 @@ class Bird {
 	}
 	
 	draw() {
-		let birds = [assets.bird1, assets.bird1, assets.bird2, assets.bird3, assets.bird3, assets.bird2];
-		image(birds[floor(frameCount/(hasStarted ? 2 : 4)) % 6], this.pos.x, this.pos.y, 17*scale, 12*scale);
+		if (!hasStarted) {
+			image(this.birds[floor(frameCount/4) % 6], this.pos.x, this.pos.y, 17*scale, 12*scale);
+			return;
+		}
+		
+		this.framesSinceJump++;
+
+		if (this.vel.y < 8) {
+			this.rotation = map(this.framesSinceJump, 0, 15, this.rotation, -20);
+
+		} else {
+			this.framesSinceFastFall++;
+			this.rotation = map(this.framesSinceFastFall, 0, 15, -20, 90);
+			if (this.rotation > 90) this.rotation = 90;
+		}
+
+		translate(this.pos.x + 8*scale, this.pos.y + 6*scale);
+		rotate(this.rotation * PI / 180);
+		translate(-this.pos.x - 8*scale, -this.pos.y - 6*scale);
+		image(this.birds[floor(frameCount/2) % 6], this.pos.x, this.pos.y, 17*scale, 12*scale);
+		resetMatrix();
 	}
 
 	flap() {
 		this.vel.y = jumpForse;
+		this.framesSinceFastFall = 0;
+		this.framesSinceJump = 0;
 	}
 
 	isHit() {
@@ -107,7 +131,7 @@ class Pipe {
 setInterval(() => {
 	if (hasStarted) {
 		pipes.push(new Pipe());
-		if (pipes.length > 2) {
+		if (pipes.length > 5) {
 			pipes.shift();
 		}
 	}
