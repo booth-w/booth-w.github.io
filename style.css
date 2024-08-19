@@ -114,6 +114,7 @@ a {
 	padding: 5px;
 	color: var(--text);
 	width: calc(100% - 10px);
+	cursor: pointer;
 }
 
 .material-icons-outlined {
