@@ -1,7 +1,25 @@
 :root {
-	--bg-high: #1d2333;
-	--bg-low: #0e1525;
-	--bg-med: #161C2C;
+	--nord0: #2e3440;
+	--nord1: #3b4252;
+	--nord2: #434c5e;
+	--nord3: #4c566a;
+	--nord4: #d8dee9;
+	--nord5: #e5e9f0;
+	--nord6: #eceff4;
+	--nord7: #8fbcbb;
+	--nord8: #88c0d0;
+	--nord9: #81a1c1;
+	--nord10: #5e81ac;
+	--nord11: #bf616a;
+	--nord12: #d08770;
+	--nord13: #ebcb8b;
+	--nord14: #a3be8c;
+	--nord15: #b48ead;
+
+	--bg-low: var(--nord0);
+	--bg-med: var(--nord1);
+	--bg-high: var(--nord1);
+	--text: var(--nord4);
 }
 
 html {
@@ -13,13 +31,13 @@ body {
 	background-color: var(--bg-high);
 	margin: 0;
 	font-family: "Source Sans Pro", serif;
-	color: whitesmoke;
+	color: var(--text);
 	height: 100%;
 	overflow: auto;
 }
 
 body::-webkit-scrollbar {
-  width: 12px;     
+  width: 12px;
 }
 body::-webkit-scrollbar-track {
   background: var(--bg-low);
@@ -31,18 +49,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 p {
-	color: whitesmoke;
+	color: var(--text);
 }
 
 a {
 	text-decoration: none;
-	color: whitesmoke;
+	color: var(--text);
 }
 
 .header {
 	background-color: var(--bg-low);
 	display: flex;
-	justify-content: space-between; 
+	justify-content: space-between;
 	padding: .25rem;
 }
 .header-container {
@@ -94,7 +112,7 @@ a {
 	background-color: var(--bg-high);
 	border: none;
 	padding: 5px;
-	color: whitesmoke;
+	color: var(--text);
 	width: calc(100% - 10px);
 }
 

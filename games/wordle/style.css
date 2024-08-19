@@ -1,12 +1,12 @@
 :root {
-	--green: #046113;
-	--orange: #AD5700;
-	--red: #8B0000;
+	--green: var(--nord14);
+	--orange: var(--nord12);
+	--red: var(--nord11);
 }
 
 button {
 	background-color: var(--bg-high);
-	color: whitesmoke;
+	color: var(--text);
 }
 
 .game {
@@ -14,7 +14,6 @@ button {
 	font-size: 2em;
 	height: 100%
 }
-
 
 .box {
 	width: 1em;
@@ -24,7 +23,7 @@ button {
 }
 .text-box {
 	background-color: var(--bg-med);
-	color: whitesmoke;
+	color: var(--text);
 }
 
 .modal {
