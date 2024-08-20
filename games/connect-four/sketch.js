@@ -5,7 +5,7 @@ function setup() {
 }
 
 function draw() {
-	background(color("#161C2C"));
+	background(color("#2E3440"));
 	board.display();
 }
 
@@ -15,9 +15,7 @@ class Board {
 		this.rows = rows;
 		this.board = [];
 		this.boardTemp = [];
-		// this.colours = ["white", "red", "yellow"];
-		this.colours = ["#8E9199", "midnightblue", "crimson"];
-		// this.colours = ["white", "rebeccapurple", "seagreen"];
+		this.colours = ["#3B4252", "#BF616A", "#EBCB8B"];
 	}
 
 	display() {
@@ -26,8 +24,8 @@ class Board {
 				if (this.hasWon) {
 					fill(this.colours[this.board[a][b]]);
 				} else {
-					let colour = color(this.colours[this.boardTemp[a][b]])
-					if (this.colours[this.boardTemp[a][b]] != "white") colour.setAlpha(128 * (!!this.board[a][b] + 1));
+					let colour = color(this.colours[this.boardTemp[a][b]]);
+					if (this.colours[this.boardTemp[a][b]] != this.colours[0]) colour.setAlpha(128 * (!!this.board[a][b] + 1));
 					fill(colour);
 				}
 				ellipse(60 * (b + 0.5), 60 * (a + 0.5), 50);
@@ -136,7 +134,7 @@ class Bot extends Player {
 		let x = 0;
 		let y = 0;
 		let canMove = [];
-		let reversed = JSON.parse(JSON.stringify(board.board)).reverse()
+		let reversed = JSON.parse(JSON.stringify(board.board)).reverse();
 
 		for (let a in reversed) {
 			y = 5-a;
