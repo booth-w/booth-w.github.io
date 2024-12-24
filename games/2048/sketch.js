@@ -19,6 +19,7 @@ class Board {
 	constructor() {
     this.tiles = Array(4).fill().map(() => Array(4).fill(new Tile(0)));
 		this.score = 0;
+		this.history = [];
 	}
 
 	draw() {
@@ -33,6 +34,8 @@ class Board {
 	move(dir) {
 		let moved = false;
 		let rotated = this.rotate(dir);
+		let tilesOld = this.tiles.map((row) => row.map((tile) => new Tile(tile.value)));
+		let scoreOld = this.score;
 
 		for (let x = 0; x < 4; x++) {
 			for (let y = 1; y < 4; y++) {
@@ -52,10 +55,16 @@ class Board {
 				}
 			}
 		}
-		
+
 		this.tiles = rotated.map((row) => row.filter((tile) => new Tile(tile.value)));
 		this.tiles = this.rotate(4 - dir);
-		if (moved) this.addTile();
+		if (moved) {
+			this.addTile();
+			this.history.push({
+				tiles: tilesOld,
+				score: scoreOld
+			});
+		}
 		redraw();
 	}
 
@@ -79,6 +88,15 @@ class Board {
 			this.tiles[y][x] = new Tile(Math.random() <= 0.8 ? 2 : 4);
 		} else {
 			this.addTile();
+		}
+	}
+
+	undo() {
+		if (this.history.length > 0) {
+			let lastMove = this.history.pop();
+			this.tiles = lastMove.tiles;
+			this.score = lastMove.score;
+			redraw();
 		}
 	}
 }
@@ -114,3 +132,7 @@ function keyPressed() {
 			break;
 	}
 }
+
+$("#undo-button").click(() => {
+	board.undo();
+});
