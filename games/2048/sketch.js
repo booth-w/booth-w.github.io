@@ -11,7 +11,6 @@ function setup() {
 }
 
 function draw() {
-	background("#eeeeee");
 	board.draw();
 }
 
@@ -107,7 +106,17 @@ class Tile {
 	}
 
 	draw(x, y) {
-		noFill();
+		let colours = [
+			"#D8DEE9",
+			"#5E81AC",
+			"#B48EAD",
+			"#BF616A",
+			"#EBCB8B",
+		];
+
+		let index = this.value == 0 ? 0 : Math.log2(this.value);
+		let colour = index < 16 ? lerpColor(color(colours[Math.floor(index/4)]), color(colours[Math.floor(index/4)+1]), index%4/4) : color(colours[4]);
+		fill(colour);
 		rect(x * 100, y * 100, 100, 100);
 		fill(0);
 		if (this.value != 0) text(this.value, x * 100 + 50, y * 100 + 50);
