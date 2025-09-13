@@ -2,6 +2,7 @@ let isRunning = false;
 let tiles = [];
 let gridSize = 20;
 let speed = 5;
+let randomDensity = 0.3;
 
 function setup() {
 	let cnv = createCanvas(400, 400);
@@ -10,8 +11,9 @@ function setup() {
 
 	$("#speed-label").text(speed);
 	$("#grid-size-label").text(gridSize);
+	$("#random-density-label").text(randomDensity * 100);
 
-	resetGrid();
+	resetGrid(true);
 }
 
 function draw() {
@@ -33,7 +35,7 @@ function resetGrid(random = false) {
 
 	if (random) {
 		tiles.forEach(tile => {
-			tile.alive = Math.random() < 0.5;
+			tile.alive = Math.random() < randomDensity;
 		});
 	}
 }
@@ -79,5 +81,11 @@ $("#speed").on("input", () => {
 $("#grid-size").on("input", () => {
 	gridSize = $("#grid-size").val();
 	$("#grid-size-label").text(gridSize);
+	resetGrid(true);
+});
+
+$("#random-density").on("input", () => {
+	randomDensity = $("#random-density").val() / 100;
+	$("#random-density-label").text($("#random-density").val() + "%");
 	resetGrid(true);
 });
