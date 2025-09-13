@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Booth-w – Game of Life</title>
+		<meta charset="utf-8">
+		<meta name="description" content="booth-w Game of Life gol p5js">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="msapplication-TileColor" content="#2b5797">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link href="/style.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.js"></script>
+		<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+		<script src="sketch.js" defer></script>
+	</head>
+	<body>
+		<div class="header-container">
+			<div class="header">
+				<div class="header-title-container">
+					<div class="header-title" id="headerTitle">Game of Life</div>
+				</div>
+			</div>
+		</div>
+		<div style="display: inline-block">
+			<div id="canvas"></div>
+			<button id="start-button" class="link-button"><span class="material-icons-outlined">play_arrow</span> Start</button>
+			<button id="stop-button" class="link-button"><span class="material-icons-outlined">stop</span> Stop</button>
+			<button id="clear-button" class="link-button"><span class="material-icons-outlined">clear</span> Clear</button>
+			<button id="random-button" class="link-button"><span class="material-icons-outlined">shuffle</span> Random</button>
+			<div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+				<label for="speed">Speed: <span id="speed-label">0</span></label>
+				<input type="range" id="speed" min="1" max="10" value="5">
+				<label for="grid-size">Grid Size: <span id="grid-size-label">0</span></label>
+				<input type="range" id="grid-size" min="8" max="80" value="20" step="4">
+			</div>
+		</div>
+	</body>
+</html>
