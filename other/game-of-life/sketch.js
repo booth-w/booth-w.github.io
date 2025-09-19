@@ -86,6 +86,6 @@ $("#grid-size").on("input", () => {
 
 $("#random-density").on("input", () => {
 	randomDensity = $("#random-density").val() / 100;
-	$("#random-density-label").text($("#random-density").val() + "%");
+	$("#random-density-label").text(randomDensity * 100);
 	resetGrid(true);
 });
