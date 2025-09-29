@@ -12,6 +12,7 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 		<link rel="manifest" href="/site.webmanifest">
 		<link href="/style.css" rel="stylesheet">
+		<link href="style.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.js"></script>
@@ -32,13 +33,18 @@
 			<button id="stop-button" class="link-button"><span class="material-icons-outlined">stop</span> Stop</button>
 			<button id="clear-button" class="link-button"><span class="material-icons-outlined">clear</span> Clear</button>
 			<button id="random-button" class="link-button"><span class="material-icons-outlined">shuffle</span> Random</button>
-			<div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+			<div class="options-container">
 				<label for="speed">Speed: <span id="speed-label">0</span></label>
 				<input type="range" id="speed" min="1" max="10" value="5">
 				<label for="grid-size">Grid Size: <span id="grid-size-label">0</span></label>
 				<input type="range" id="grid-size" min="8" max="80" value="20" step="4">
 				<label for="random-density">Random Density: <span id="random-density-label">0</span>%</label>
 				<input type="range" id="random-density" min="0" max="100" value="30" step="10">
+				<label for="neighbourhood-type"></label>
+				<select id="neighbourhood-type" class="neighbourhood-type">
+					<option value="moore">Moore Neighbourhood</option>
+					<option value="vonneumann">Von Neumann Neighbourhood</option>
+				</select>
 			</div>
 		</div>
 	</body>

@@ -3,6 +3,7 @@ let tiles = [];
 let gridSize = 20;
 let speed = 5;
 let randomDensity = 0.3;
+let usingMoore = true;
 
 function setup() {
 	let cnv = createCanvas(400, 400);
@@ -31,7 +32,7 @@ function runIteration() {
 	let newTiles = tiles.map(tile => new Tile(tile.pos, tile.alive));
 
 	tiles.forEach((tile, index) => {
-		let neighbours = tile.getNeighbours();
+		let neighbours = tile.getNeighbours(usingMoore);
 		if (neighbours < 2 || neighbours > 3) {
 			newTiles[index].alive = false;
 		} else if (neighbours == 3) {
@@ -70,10 +71,11 @@ class Tile {
 		rect(this.pos.x * rectSize, this.pos.y * rectSize, rectSize, rectSize);
 	}
 
-	getNeighbours() {
+	getNeighbours(moore) {
 		let neighbours = 0
 		for (let y = -1; y <= 1; y++) {
 			for (let x = -1; x <= 1; x++) {
+				if (!moore && x && y) continue;
 				if (x == 0 && y == 0) continue;
 
 				let nX = this.pos.x + x;
@@ -121,5 +123,10 @@ $("#grid-size").on("input", () => {
 $("#random-density").on("input", () => {
 	randomDensity = $("#random-density").val() / 100;
 	$("#random-density-label").text(randomDensity * 100);
+	resetGrid(true);
+});
+
+$("#neighbourhood-type").on("change", () => {
+	usingMoore = $("#neighbourhood-type").val() == "moore";
 	resetGrid(true);
 });

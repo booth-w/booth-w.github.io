@@ -1,0 +1,14 @@
+.options-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.neighbourhood-type {
+	margin: 10px;
+	padding: 10px 10px;
+	background-color: #D8DEE9;
+	border-radius: 5px;
+	cursor: pointer;
+}
