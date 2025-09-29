@@ -18,10 +18,28 @@ function setup() {
 
 function draw() {
 	background("#4C566A");
+	if (isRunning && frameCount % (11 - speed) == 0) {
+		runIteration();
+	}
 
 	tiles.forEach(tile => {
 		tile.draw();
 	});
+}
+
+function runIteration() {
+	let newTiles = tiles.map(tile => new Tile(tile.pos, tile.alive));
+
+	tiles.forEach((tile, index) => {
+		let neighbours = tile.getNeighbours();
+		if (neighbours < 2 || neighbours > 3) {
+			newTiles[index].alive = false;
+		} else if (neighbours == 3) {
+			newTiles[index].alive = true;
+		}
+	});
+
+	tiles = newTiles;
 }
 
 function resetGrid(random = false) {
@@ -53,7 +71,23 @@ class Tile {
 	}
 
 	getNeighbours() {
+		let neighbours = 0
+		for (let y = -1; y <= 1; y++) {
+			for (let x = -1; x <= 1; x++) {
+				if (x == 0 && y == 0) continue;
 
+				let nX = this.pos.x + x;
+				let nY = this.pos.y + y;
+
+				if (nX >= 0 && nX < gridSize && nY >= 0 && nY < gridSize) {
+					if (tiles[nY * gridSize + nX].alive) {
+						neighbours++;
+					}
+				}
+			}
+		}
+
+		return neighbours;
 	}
 }
 
