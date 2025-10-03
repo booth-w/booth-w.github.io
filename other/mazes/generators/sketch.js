@@ -1,11 +1,12 @@
 let maze = [];
 let genType = "recursiveBacktrack";
-let gridSize = 20;
+let canvasSize = 420;
+let gridSize = 21;
 let generators;
 let mazeGen;
 
 function setup() {
-	createCanvas(400, 400);
+	createCanvas(canvasSize, canvasSize);
 	frameRate(20);
 	noStroke();
 
@@ -37,7 +38,7 @@ function drawMaze(toDraw, currentX, currentY) {
 			if (x === currentX && y === currentY) {
 				fill("#5E81AC");
 			}
-			rect(x * (400 / gridSize), y * (400 / gridSize), 400 / gridSize, 400 / gridSize);
+			rect(x * (canvasSize / gridSize), y * (canvasSize / gridSize), canvasSize / gridSize, canvasSize / gridSize);
 		});
 	});
 }
@@ -54,7 +55,7 @@ class Generators {
 				let nx = x + dx * 2;
 				let ny = y + dy * 2;
 
-				if (nx >= 0 && nx < 400/gridSize && ny >= 0 && ny < 400/gridSize && !maze[ny][nx]) {
+				if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize && !maze[ny][nx]) {
 					maze[y + dy][x + dx] = true;
 					yield [maze, x + dx, y + dy];
 					yield* carve(nx, ny);
@@ -62,26 +63,26 @@ class Generators {
 			}
 		}
 
-		yield* carve(0, 0);
+		yield* carve(1, 1);
 	}
 
 	*prim() {
 		let directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
 		let walls = [];
-		maze[0][0] = true;
+		maze[1][1] = true;
 
 		function addWalls(x, y) {
 			for (let [dx, dy] of directions) {
 				let nx = x + dx * 2;
 				let ny = y + dy * 2;
-				if (nx >= 0 && nx < 400/gridSize && ny >= 0 && ny < 400/gridSize && !maze[ny][nx]) {
+				if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize && !maze[ny][nx]) {
 					walls.push([x, y, nx, ny]);
 				}
 			}
 		}
 
-		addWalls(0, 0);
-		yield [maze, 0, 0];
+		addWalls(1, 1);
+		yield [maze, 1, 1];
 
 		while (walls.length > 1) {
 			let wall = floor(random(walls.length));
