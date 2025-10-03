@@ -64,9 +64,42 @@ class Generators {
 
 		yield* carve(0, 0);
 	}
+
+	*prim() {
+		let directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+		let walls = [];
+		maze[0][0] = true;
+
+		function addWalls(x, y) {
+			for (let [dx, dy] of directions) {
+				let nx = x + dx * 2;
+				let ny = y + dy * 2;
+				if (nx >= 0 && nx < 400/gridSize && ny >= 0 && ny < 400/gridSize && !maze[ny][nx]) {
+					walls.push([x, y, nx, ny]);
+				}
+			}
+		}
+
+		addWalls(0, 0);
+		yield [maze, 0, 0];
+
+		while (walls.length > 1) {
+			let wall = floor(random(walls.length));
+			let [x, y, nx, ny] = walls[wall];
+			walls.splice(wall, 1);
+			if (!maze[ny][nx]) {
+				maze[y + (ny - y) / 2][x + (nx - x) / 2] = true;
+				yield [maze, x + (nx - x) / 2, y + (ny - y) / 2];
+				maze[ny][nx] = true;
+				yield [maze, nx, ny];
+				addWalls(nx, ny);
+			}
+		}
+	}
 }
 
 $("#gen-type").on("change", () => {
 	genType = $("#gen-type").val();
+	clearMaze();
 	mazeGen = generators[genType]();
-})
+});
