@@ -23,9 +23,7 @@ function draw() {
 		runIteration();
 	}
 
-	tiles.forEach(tile => {
-		tile.draw();
-	});
+	drawAll();
 }
 
 function runIteration() {
@@ -41,6 +39,12 @@ function runIteration() {
 	});
 
 	tiles = newTiles;
+}
+
+function drawAll() {
+	tiles.forEach(tile => {
+		tile.draw();
+	});
 }
 
 function resetGrid(random = false) {
@@ -99,6 +103,13 @@ $("#start-button").click(() => {
 
 $("#stop-button").click(() => {
 	isRunning = false;
+});
+
+$("#step-button").click(() => {
+	if (isRunning) return;
+
+	runIteration();
+	drawAll();
 });
 
 $("#clear-button").click(() => {
