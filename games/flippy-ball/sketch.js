@@ -13,8 +13,8 @@ function setup() {
 }
 
 function draw() {
-	background(220);
-	fill(255);
+	background("##D8DEE9");
+	fill("#4C566A");
 	rect(0, (width/2) - 10, height, 20);
 
 	player.flip();
@@ -25,7 +25,7 @@ function draw() {
 	player.speed *= 1.0002;
 	spikeSpeed = player.speed/2;
 	spike.speed = spikeSpeed;
-	
+
 	if (player.isHit()) {
 		noLoop();
 		alert(`Game over. You survived ${Math.floor(millis()/1000)} seconds.`)
@@ -38,7 +38,7 @@ class Player {
 		this.size = 20;
 		this.pos = createVector(50, (height/2)-10-this.size/2);
 		this.speed = 15;
-		this.colours = [color(220, 0, 0), color(0, 220, 0), color(0, 0, 220)];
+		this.colours = ["#BF616A", "#A3BE8C", "#81A1C1"];
 		this.colourSelected = 0;
 		this.side = 0;
 		// 0 = top, 1 = bottom
@@ -52,8 +52,8 @@ class Player {
 	}
 
 	flip() {
-    if (this.isFlipping) {
-      this.pos.y += this.speed * ((this.side == this.hasFlipped) ? -1 : 1);
+		if (this.isFlipping) {
+			this.pos.y += this.speed * ((this.side == this.hasFlipped) ? -1 : 1);
 			if (this.pos.y >= (height/2) - this.size && this.side == 0 || this.pos.y <= (height/2) + this.size && this.side == 1) {
 				this.isFlipping = false;
 				this.pos.y = (height/2)-(10+this.size/2)*((this.side) ? -1 : 1);
@@ -67,7 +67,7 @@ class Player {
 				this.side = !this.side;
 				this.hasFlipped = true;
 			}
-    }
+		}
 	}
 
 	isHit() {
@@ -94,12 +94,12 @@ class Spike {
 	}
 
 	draw() {
-		fill(0);
+		fill("#2E3440");
 		if (this.side == 0) {
 			triangle(this.pos.x, height/2-10, this.pos.x+this.size, height/2-10, this.pos.x+this.size/2, height/2-this.size*sqrt(3)/2);
 		} else {
 			triangle(this.pos.x, height/2+10, this.pos.x+this.size, height/2+10, this.pos.x+this.size/2, height/2+this.size*sqrt(3)/2);
-		}		
+		}
 	}
 
 	move() {

@@ -17,9 +17,10 @@ function setup() {
 }
 
 function draw() {
-	background(100);
-	stroke(50);
-	fill(50);
+	background("#4C566A");
+	stroke("#2E3440");
+	fill("#2E3440");
+
 	for (let a of walls) {
 		a.draw();
 		a.isHit();
@@ -28,8 +29,8 @@ function draw() {
 		a.draw();
 		a.isHit();
 	}
-	stroke(0);
-	fill(200)
+
+	fill("#D8DEE9")
 	end.draw();
 	ball.move();
 	ball.draw();
@@ -51,11 +52,16 @@ class Ball {
 			let angle = Math.atan2(mouseY-this.pos.y, mouseX-this.pos.x);
 			translate(this.pos.x, this.pos.y);
 			rotate(angle + radians(-90));
-			
+
 			for (let a = 0; a < 100; a++) {
 	      let inter = map(a, 0, 30, 0, 1);
-	      let c = lerpColor(color(0, 255, 0), color(255, 0, 0), inter);
-	      stroke(c);
+	      let c = lerpColor(color("#A3BE8C"), color("#BF616A"), inter);
+
+				colorMode(HSL);
+				c = color(hue(c), saturation(c) + 30, lightness(c));
+				colorMode(RGB);
+
+				stroke(c);
 				if (a <= power*10) {
 		      line(-10, 20+a, 10, 20+a);
 				}
@@ -74,12 +80,12 @@ class Ball {
 	  this.pos.add(this.vel);
 		this.vel.mult(0.99);
 		this.acc.mult(0);
-		
+
 		if (Math.max(Math.abs(this.vel.x), Math.abs(this.vel.y)) < .1) this.vel.mult(0);
 		if (end.isAtEnd(this)) {
 			reset(++level);
 		}
-	}	
+	}
 }
 
 class Wall {
@@ -150,7 +156,7 @@ function reset(level) {
 	for (let w of layout.walls) {
 		walls.push(new Wall(w.x, w.y, w.w, w.h));
 	}
-	
+
 	pits = [];
 	for (let p of layout.pits) {
 		pits.push(new Pit(p.x, p.y));

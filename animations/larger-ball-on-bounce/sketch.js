@@ -1,7 +1,7 @@
 function setup() {
 	createCanvas(400, 400);
 	$(canvas).css("border-radius", "200px");
-	fill(150);
+	fill("#4C566A");
 	ellipse(200, 200, 400);
 	colorMode(HSB, 100);
 
@@ -19,7 +19,7 @@ class Ball {
 		this.pos = createVector(100, 200);
 		this.vel = createVector(0, 0);
 		this.r = 20;
-		this.colour = color(0, 100, 100);
+		this.colour = color(0, 80, 100);
 		this.atEdgeLastFrame = false;
 	}
 
@@ -28,10 +28,10 @@ class Ball {
 		this.pos.add(this.vel);
 
 		let d = dist(this.pos.x, this.pos.y, 200, 200);
-    if (d >= 200 - this.r/2 && !this.atEdgeLastFrame) {
+		if (d >= 200 - this.r/2 && !this.atEdgeLastFrame) {
 			let angle = atan2(this.pos.y - 200, this.pos.x - 200);
 			let normal = createVector(cos(angle), sin(angle));
-			
+
 			this.vel.sub(p5.Vector.mult(normal, 2 * p5.Vector.dot(this.vel, normal)));
 			this.vel.mult(1.02);
 			this.r += 1.02;
@@ -47,9 +47,9 @@ class Ball {
 			this.atEdgeLastFrame = false;
 		}
 	}
-	
+
 	draw() {
-		this.colour = color(frameCount/4 % 100, 100, 100);
+		this.colour = color(frameCount/4 % 100, 80, 100);
 		fill(this.colour);
 		ellipse(this.pos.x, this.pos.y, this.r);
 	}

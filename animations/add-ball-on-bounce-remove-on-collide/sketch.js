@@ -8,7 +8,7 @@ function setup() {
 
 function draw() {
 	colorMode(RGB, 255);
-	background(150);
+	background("#4C566A");
 	colorMode(HSB, 100);
 	balls.forEach(ball => {
 		ball.move();
@@ -24,7 +24,7 @@ class Ball {
 		}
 		this.vel = createVector(0, 0);
 		this.r = 20;
-		this.colour = color(0, 100, 100);
+		this.colour = color(0, 80, 100);
 		this.atEdgeLastFrame = false;
 		this.genTime = frameCount;
 		this.osc = new p5.Oscillator("sine");
@@ -35,10 +35,10 @@ class Ball {
 		this.pos.add(this.vel);
 
 		let d = dist(this.pos.x, this.pos.y, 200, 200);
-    if (d >= 200 - this.r/2 && !this.atEdgeLastFrame) {
+		if (d >= 200 - this.r/2 && !this.atEdgeLastFrame) {
 			let angle = atan2(this.pos.y - 200, this.pos.x - 200);
 			let normal = createVector(cos(angle), sin(angle));
-			
+
 			this.vel.sub(p5.Vector.mult(normal, 2 * p5.Vector.dot(this.vel, normal)));
 			balls.push(new Ball());
 			this.atEdgeLastFrame = true;
@@ -62,7 +62,7 @@ class Ball {
 	}
 
 	draw() {
-		this.colour = color((frameCount-this.genTime)/4 % 100, 100, 100);
+		this.colour = color((frameCount-this.genTime)/4 % 100, 80, 100);
 		fill(this.colour);
 		ellipse(this.pos.x, this.pos.y, this.r);
 	}
