@@ -55,7 +55,7 @@ function draw() {
 	fill(0);
 	textSize(32);
 	text(score, 10, 32);
-	
+
 	time = Math.floor(millis() / 10);
 	textSize(24)
 	time = time.toString().slice(0, -2) + "." + time.toString().slice(-2);
@@ -105,7 +105,7 @@ class Player {
 				if (this.pos.x < 0 || this.pos.y < 0 || this.pos.x > width || this.pos.y > height) {
 					pellets.splice(pellets.indexOf(this), 1);
 				}
-		
+
 				enemys.forEach(enemy => {
 					if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size) {
 						pellets.splice(pellets.indexOf(this), 1);
@@ -180,7 +180,7 @@ class Enemy {
 				if (this.pos.x < 0 || this.pos.y < 0 || this.pos.x > width || this.pos.y > height) {
 					pelletsE.splice(pelletsE.indexOf(this), 1);
 				}
-	
+
 				if (dist(this.pos.x, this.pos.y, player.pos.x, player.pos.y) < player.size) {
 					pelletsE.splice(pelletsE.indexOf(this), 1);
 					player.health--;

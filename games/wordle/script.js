@@ -12,12 +12,12 @@ client.send();
 function newWord() {
 	word = words[Math.floor(Math.random() * 1000)];
 	rowCurrent = 0;
-	
+
 	$("td").each((i, e) => {
 		e.innerHTML = "";
 		e.style.backgroundColor = "var(--bg-low)";
 	});
-	
+
 	$(".letter").each((i, e) => {
 		e.style.backgroundColor = "var(--bg-low)";
 	});
@@ -36,7 +36,7 @@ function toggleHelp() {
 }
 
 window.onclick = (event) => {
-  if (event.target == document.getElementById("modal")) {
+	if (event.target == document.getElementById("modal")) {
 		$(".game").css("filter", "none");
 		$(".header-container").css("filter", "none");
 		$(".modal").hide();

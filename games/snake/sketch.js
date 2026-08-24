@@ -48,10 +48,10 @@ class Player{
 			let current = openSet.reduce((a, b) => fScore[JSON.stringify(a)] < fScore[JSON.stringify(b)] ? a : b);
 			if (JSON.stringify(current) == JSON.stringify(end)) {
 				let totalPath = [current];
-					while (JSON.stringify(current) in cameFrom) {
-						current = cameFrom[JSON.stringify(current)];
-						totalPath.unshift(current);
-					}
+				while (JSON.stringify(current) in cameFrom) {
+					current = cameFrom[JSON.stringify(current)];
+					totalPath.unshift(current);
+				}
 				return totalPath;
 			}
 
@@ -128,7 +128,7 @@ class Player{
 
 		let head = this.body[0];
 		let newHead = [head[0], head[1]];
-		
+
 		switch(this.moveDir) {
 			case "up":
 				newHead[1] -= 1;

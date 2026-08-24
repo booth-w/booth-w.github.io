@@ -29,15 +29,15 @@ function preload() {
 
 function draw() {
 	image(assets.background, 0, 0, 144*scale, 256*scale);
-	
+
 	pipes.forEach(pipe => {
 		pipe.pos.add(pipe.vel);
 		pipe.draw();
 	});
-		
+
 	bird.update();
 	bird.draw();
-	
+
 	image(assets.ground, -(frameCount*scale % width), 200*scale, 144*scale, 56*scale);
 	image(assets.ground, -(frameCount*scale % width)+width, 200*scale, 144*scale, 56*scale);
 }
@@ -65,13 +65,13 @@ class Bird {
 			}
 		}
 	}
-	
+
 	draw() {
 		if (!hasStarted) {
 			image(this.birds[floor(frameCount/4) % 6], this.pos.x, this.pos.y, 17*scale, 12*scale);
 			return;
 		}
-		
+
 		this.framesSinceJump++;
 
 		if (this.vel.y < 8) {

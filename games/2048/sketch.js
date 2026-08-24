@@ -16,7 +16,7 @@ function draw() {
 
 class Board {
 	constructor() {
-    this.tiles = Array(4).fill().map(() => Array(4).fill(new Tile(0)));
+	this.tiles = Array(4).fill().map(() => Array(4).fill(new Tile(0)));
 		this.score = 0;
 		this.history = [];
 	}

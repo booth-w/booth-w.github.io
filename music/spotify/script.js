@@ -21,7 +21,7 @@ async function getData(token) {
 
 	let total = (await result.json())["total"];
 	let persentage = 0;
-	
+
 	for (let a = 0; a < total/50; a++) {
 		let result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=50&offset=${a*50}`, {
 			method: "GET",
@@ -29,12 +29,12 @@ async function getData(token) {
 				"Authorization": `Bearer ${token}`
 			}
 		});
-		
+
 		for (let [i, song] of (await result.json())["items"].entries()) {
 			let year = song["track"]["album"]["release_date"].slice(0, 4);
 			if (songYears[year]) songYears[year] += `\n${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
 			else songYears[year] = `${song["track"]["artists"][0]["name"]} – ${song["track"]["name"]}`;
-			
+
 			let artist = song["track"]["artists"][0]["name"];
 			if (bandCount[artist]) bandCount[artist] += `\n${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
 			else bandCount[artist] = `${song["track"]["album"]["name"]} – ${song["track"]["name"]}`;
@@ -68,7 +68,7 @@ function drawChart(type) {
 			years = songYears.map(e => e.split("\n").length);
 			maxYear = Math.max(...Object.keys(years));
 			minYear = Math.min(...Object.keys(years));
-			
+
 			for (let a = minYear; a < maxYear+1; a++) {
 				data.push({x: a, value: years[a], songs: songYears[a]});
 			}
@@ -137,7 +137,7 @@ function drawChart(type) {
 			chart.tooltip().format("Number of Songs: {%value}");
 			chart.title(`Song Length Histogram: Class Width = ${classWidth} seconds ${histogramAvarage ? "(3-point Moving Avarage)" : ""}`);
 			break;
-		
+
 		case "explicit":
 			data = Object.entries(explicitCount).map((e) => {
 				return {x: e[0] == "true" ? "Explicit" : "Not Explicit", value: e[1].split("\n").length, songs: e[1]}

@@ -27,7 +27,7 @@ function draw() {
 	background(255);
 	fill(100);
 	rect(0, 0, xOff*50, yOff*50);
-	
+
 	stroke(0);
 	for (let x = 0; x < xOff; x++) {
 		for (let y = 0; y < level.length; y++) {
@@ -39,7 +39,7 @@ function draw() {
 			text(hints["across"][x][y], (xOff+x+1)*50-25, 50*y+25);
 		}
 	}
-	
+
 	fill(0);
 	for (let [yi, y] of board.entries()) {
 		for (let [xi, x] of y.entries()) {
@@ -62,7 +62,7 @@ function preload() {
 
 function getHints(level) {
 	let hints = {"down": [], "across": []};
-	
+
 	for (let [yi, y] of level.entries()) {
 		hints["down"].push([]);
 		let toAdd = 0;
@@ -76,7 +76,7 @@ function getHints(level) {
 		}
 		if (toAdd) hints["down"][yi].push(toAdd);
 	}
-	
+
 	for (let xi = 0; xi < level[0].length; xi++) {
 		hints["across"].push([]);
 		let toAdd = 0;
@@ -90,7 +90,7 @@ function getHints(level) {
 		}
 		if (toAdd) hints["across"][xi].push(toAdd);
 	}
-	
+
 	return hints;
 }
 
@@ -103,7 +103,7 @@ function mousePressed() {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && (e.key == "z" || e.key == "Z")) {
+	if (e.ctrlKey && (e.key == "z" || e.key == "Z")) {
 		if (e.key == "z") {
 			if (undo[0]) {
 				let u = undo.pop();
@@ -117,7 +117,7 @@ document.addEventListener("keydown", (e) => {
 			board[r[1]][r[0]] = r[2]
 			undo.push(r)
 		}
-  }
+	}
 });
 
 // TODO
