@@ -16,15 +16,19 @@ function setup() {
 			flagged[x][y] = false;
 		}
 	}
+	textFont(bigBlue);
 	textAlign(CENTER);
-	textSize(20);
+	textSize(30);
 	firstClicked = true;
 	winAlertShown = false;
 	fail = false;
 }
 
+function preload() {
+	bigBlue = loadFont("BigBlueTerm437NerdFontMono-Regular.ttf")
+}
+
 function draw() {
-	background(255);
 	allMinesFlagged = true;
 	allNonMinesUncovered = true;
 	for (x = 0; x < size; x++) {
@@ -59,20 +63,25 @@ function draw() {
 			strokeWeight(4);
 			if (hidden[x][y]) {
 				if (flagged[x][y]) {
-					fill(100);
+					fill("#2E3440");
 				} else {
-					fill(175);
+					fill("#4C566A");
 				}
 			} else if (grid[x][y]) {
-				fill(50);
+				fill("#2E3440");
 			} else {
-				fill(255);
+				fill("#D8DEE9");
 			}
 
 			rect(3 + x * 40 + x * 3, 3 + y * 40 + y * 3, 40, 40);
 			if (!grid[x][y] && !hidden[x][y]) {
-				fill(0);
-				if (n != 0) text(n, 3 + x * 40 + x * 3 + 20, 3 + y * 40 + y * 3 + 27);
+				colours = ["#88C0D0", "#A3BE8C", "#BF616A", "#5E81AC", "#B48EAD", "#8FBCBB", "#2E3440", "#4C566A"];
+				if (n != 0) {
+					stroke(0);
+					strokeWeight(3);
+					fill(colours[n - 1]);
+					text(n, 3 + x * 40 + x * 3 + 20, 3 + y * 40 + y * 3 + 31);
+				}
 			}
 		}
 	}
